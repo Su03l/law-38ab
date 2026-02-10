@@ -287,6 +287,16 @@ const AdminDashboard: React.FC = () => {
             </button>
           ))}
         </nav>
+
+        <div className="p-6 border-t border-navy-900">
+          <button
+            onClick={() => navigate('/')}
+            className="w-full flex items-center gap-4 px-5 py-4 rounded-2xl transition-all font-bold text-lg text-rose-500 hover:bg-rose-500/10 hover:text-rose-400 group"
+          >
+            <LogOut className="w-6 h-6 group-hover:scale-110 transition-transform" />
+            تسجيل الخروج
+          </button>
+        </div>
       </aside>
 
       {/* Main Content */}
