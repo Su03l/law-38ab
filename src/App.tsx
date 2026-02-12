@@ -11,13 +11,13 @@ import ContactPage from './pages/ContactPage';
 import Layout from './components/layout/Layout';
 import { LanguageProvider } from './context/LanguageContext';
 import { BlogProvider } from './context/BlogContext';
-import { HelmetProvider } from 'react-helmet-async';
+
 
 import ScrollToTop from './components/layout/ScrollToTop';
 
 const App: React.FC = () => {
   return (
-    <HelmetProvider>
+    <>
       <LanguageProvider>
         <BlogProvider>
           <BrowserRouter>
@@ -40,7 +40,7 @@ const App: React.FC = () => {
           </BrowserRouter>
         </BlogProvider>
       </LanguageProvider>
-    </HelmetProvider>
+    </>
   );
 };
 

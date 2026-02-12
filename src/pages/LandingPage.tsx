@@ -101,7 +101,7 @@ const LandingPage: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/60 to-transparent" />
         </div>
 
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto px-6 relative z-10 pt-24 md:pt-0">
           <div className="max-w-4xl space-y-8">
             <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-gold-500/30 bg-gold-500/10 backdrop-blur-md text-gold-400 text-sm font-bold animate-pulse hover:bg-gold-500/20 transition-colors">
               <span className="w-2 h-2 rounded-full bg-gold-500 shadow-[0_0_10px_rgba(212,175,55,0.5)]" />
