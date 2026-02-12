@@ -1,6 +1,6 @@
 import React from 'react';
 import { Scale, ShieldCheck, Briefcase, Users, Landmark, Gavel, FileText, Building2, Globe2 } from 'lucide-react';
-import { useLanguage } from '../LanguageContext';
+import { useLanguage } from '../../context/LanguageContext';
 
 const serviceIcons = [
     <Scale className="w-8 h-8" />,

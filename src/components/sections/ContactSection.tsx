@@ -1,6 +1,6 @@
 import React from 'react';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
-import { useLanguage } from '../LanguageContext';
+import { useLanguage } from '../../context/LanguageContext';
 
 const ContactSection: React.FC = () => {
     const { t } = useLanguage();

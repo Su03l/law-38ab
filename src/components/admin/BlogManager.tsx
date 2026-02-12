@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, Edit2, Trash2, Image as ImageIcon, Eye, X, CheckCircle, AlertCircle } from 'lucide-react';
-import { useBlog } from '../../BlogContext';
+import { useBlog } from '../../context/BlogContext';
 import Toast from './Toast';
 
 const BlogManager: React.FC = () => {

@@ -1,8 +1,9 @@
 import React from 'react';
-import BlogSection from '../components/BlogSection';
+import BlogSection from '../components/sections/BlogSection';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Home } from 'lucide-react';
-import { useLanguage } from '../LanguageContext';
+import { useLanguage } from '../context/LanguageContext';
+import SEO from '../components/ui/SEO';
 
 const BlogPage: React.FC = () => {
     const { isAr, t } = useLanguage();
@@ -10,6 +11,11 @@ const BlogPage: React.FC = () => {
 
     return (
         <div className="pt-20 min-h-screen bg-white">
+            <SEO
+                title={isAr ? 'آفاق قانونية - المدونة' : 'Legal Insights - Blog'}
+                description={isAr ? 'تابع آخر المقالات والمستجدات القانونية في المملكة العربية السعودية من خلال مدونة شركة عقاب السحيمي.' : 'Follow the latest articles and legal updates in Saudi Arabia through Oqab Al-Suhaimi blog.'}
+                keywords={isAr ? 'مقالات قانونية، محاماة، ثقافة قانونية، أخبار المحاماة، السعودية' : 'legal articles, law, legal culture, law news, Saudi Arabia'}
+            />
             <div className="container mx-auto px-6 pt-12">
                 <Link
                     to="/"

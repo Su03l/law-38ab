@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowUp } from 'lucide-react';
-import { useLanguage } from '../LanguageContext';
+import { useLanguage } from '../../context/LanguageContext';
 
 const ScrollToTopButton: React.FC = () => {
     const { isAr } = useLanguage();

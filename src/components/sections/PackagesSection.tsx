@@ -1,6 +1,6 @@
 import React from 'react';
 import { Check, Shield, Star, Briefcase, Zap, Globe, MessageSquare } from 'lucide-react';
-import { useLanguage } from '../LanguageContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { Link } from 'react-router-dom';
 
 const PackagesSection: React.FC = () => {

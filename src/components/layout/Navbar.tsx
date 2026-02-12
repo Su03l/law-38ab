@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowLeft, ArrowRight, ShieldCheck, Globe } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import logo from '@/public/logo.png';
-import { useLanguage } from '../LanguageContext';
+import logo from '@/assets/logo.png';
+import { useLanguage } from '../../context/LanguageContext';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);

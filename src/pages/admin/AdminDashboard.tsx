@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { LayoutDashboard, Calendar, FileText, Settings, LogOut, Bell, Search, Plus, CheckCircle, XCircle, MoreVertical, UserPlus, Menu, X, Eye, AlertCircle } from 'lucide-react';
-import { INITIAL_BOOKINGS, INITIAL_EMPLOYEES } from '../constants';
-import { Booking, BookingStatus, Employee } from '../types';
+import { INITIAL_BOOKINGS, INITIAL_EMPLOYEES } from '../../constants';
+import { Booking, BookingStatus, Employee } from '../../types';
 import { useNavigate } from 'react-router-dom';
-import ScheduleView from '../components/admin/ScheduleView';
-import EmployeesView from '../components/admin/EmployeesView';
-import BlogManager from '../components/admin/BlogManager';
-import SettingsView from '../components/admin/SettingsView';
-import BookingDetailsModal from '../components/admin/BookingDetailsModal';
+import ScheduleView from '../../components/admin/ScheduleView';
+import EmployeesView from '../../components/admin/EmployeesView';
+import BlogManager from '../../components/admin/BlogManager';
+import SettingsView from '../../components/admin/SettingsView';
+import BookingDetailsModal from '../../components/admin/BookingDetailsModal';
 
 // Helper to generate dynamic bookings (Moved here to share init)
 const generateMockBookings = () => {

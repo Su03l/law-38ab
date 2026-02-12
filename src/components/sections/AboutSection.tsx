@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, ArrowRight, X, Target, Lightbulb, Shield, Award } from 'lucide-react';
-import { useLanguage } from '../LanguageContext';
-import founderImg from '@/public/FOUNDER.png';
+import { useLanguage } from '../../context/LanguageContext';
+import founderImg from '@/assets/FOUNDER.png';
 
 const AboutSection: React.FC = () => {
     const { t } = useLanguage();
@@ -30,8 +30,8 @@ const AboutSection: React.FC = () => {
                                 <div className="absolute inset-0 bg-gold-500/10 rounded-3xl transform rotate-6 scale-95" />
                                 <img
                                     src={founderImg}
-                                    alt={t('about.founderTitle')}
-                                    className="relative w-full max-w-md rounded-3xl shadow-2xl object-cover aspect-[3/4]"
+                                    alt="الأستاذ عقاب السحيمي - المؤسس"
+                                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
                                 />
                             </div>
                         </div>

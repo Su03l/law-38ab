@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, ArrowRight, X, Clock, Calendar } from 'lucide-react';
-import { useLanguage } from '../LanguageContext';
-import { useBlog } from '../BlogContext';
+import { useLanguage } from '../../context/LanguageContext';
+import { useBlog } from '../../context/BlogContext';
 import { useNavigate, Link } from 'react-router-dom';
 
 interface BlogSectionProps {
@@ -23,7 +23,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({ limit, showViewAll = false })
             title: post.title,
             content: (
                 <div className="space-y-6">
-                    <img src={post.imageUrl} className="w-full h-64 object-cover rounded-[32px] mb-6 shadow-xl" alt="" />
+                    <img src={post.imageUrl} className="w-full h-64 object-cover rounded-[32px] mb-6 shadow-xl" alt={post.title} />
                     <div className="flex items-center gap-6 text-sm text-slate-400 font-bold mb-6">
                         <span className="flex items-center gap-2"><Clock className="w-4 h-4" /> {t('blog.readingTime')}</span>
                         <span className="flex items-center gap-2"><Calendar className="w-4 h-4" /> {post.date}</span>

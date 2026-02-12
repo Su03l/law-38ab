@@ -1,33 +1,79 @@
 import React, { useState } from 'react';
 import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import AboutSection from '../components/AboutSection';
-import PracticeAreasSection from '../components/PracticeAreasSection';
-import BlogSection from '../components/BlogSection';
-import ContactSection from '../components/ContactSection';
-import BookingWizard from '../components/BookingWizard';
-import PackagesSection from '../components/PackagesSection';
-import { useLanguage } from '../LanguageContext';
+import AboutSection from '../components/sections/AboutSection';
+import PracticeAreasSection from '../components/sections/PracticeAreasSection';
+import BlogSection from '../components/sections/BlogSection';
+import ContactSection from '../components/sections/ContactSection';
+import BookingWizard from '../components/booking/BookingWizard';
+import PackagesSection from '../components/sections/PackagesSection';
+import SEO from '../components/ui/SEO';
+import { useLanguage } from '../context/LanguageContext';
 
-import partner1 from '@/public/Screenshot_2026-02-12_213717-removebg-preview.png';
-import partner2 from '@/public/Screenshot_2026-02-12_213758-removebg-preview.png';
-import partner3 from '@/public/Screenshot_2026-02-12_213831-removebg-preview.png';
-import partner4 from '@/public/Screenshot_2026-02-12_213855-removebg-preview.png';
-import partner5 from '@/public/Screenshot_2026-02-12_213918-removebg-preview.png';
-import partner6 from '@/public/Screenshot_2026-02-12_213942-removebg-preview.png';
-import partner7 from '@/public/Screenshot_2026-02-12_214009-removebg-preview.png';
-import partner8 from '@/public/Screenshot_2026-02-12_214027-removebg-preview.png';
-import partner9 from '@/public/4a3d78e8-e85d-491c-b8da-71f08d68f535_مشروع_جديد-removebg-preview.png';
+import partner1 from '@/assets/Screenshot_2026-02-12_213717-removebg-preview.png';
+import partner2 from '@/assets/Screenshot_2026-02-12_213758-removebg-preview.png';
+import partner3 from '@/assets/Screenshot_2026-02-12_213831-removebg-preview.png';
+import partner4 from '@/assets/Screenshot_2026-02-12_213855-removebg-preview.png';
+import partner5 from '@/assets/Screenshot_2026-02-12_213918-removebg-preview.png';
+import partner6 from '@/assets/Screenshot_2026-02-12_213942-removebg-preview.png';
+import partner7 from '@/assets/Screenshot_2026-02-12_214009-removebg-preview.png';
+import partner8 from '@/assets/Screenshot_2026-02-12_214027-removebg-preview.png';
+import partner9 from '@/assets/4a3d78e8-e85d-491c-b8da-71f08d68f535_مشروع_جديد-removebg-preview.png';
 
 const partners = [partner1, partner2, partner3, partner4, partner5, partner6, partner7, partner8, partner9];
 
 const LandingPage: React.FC = () => {
   const { t, isAr } = useLanguage();
   const ArrowIcon = isAr ? ArrowLeft : ArrowRight;
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [showSuccess, setShowSuccess] = React.useState(false);
+
+  const lawFirmSchema = {
+    "@context": "https://schema.org",
+    "@type": "LegalService",
+    "name": "شركة عقاب السحيمي للمحاماة والاستشارات القانونية",
+    "alternateName": "Oqab Al-Suhaimi Law Firm",
+    "description": "شركة محاماة رائدة في المدينة المنورة والرياض تقدم خدمات قانونية متخصصة في القضايا التجارية والعمالية والإدارية.",
+    "url": "https://oqab.sa",
+    "logo": "https://oqab.sa/logo.png",
+    "address": [
+      {
+        "@type": "PostalAddress",
+        "addressLocality": "المدينة المنورة",
+        "addressRegion": "منطقة المدينة المنورة",
+        "addressCountry": "SA"
+      },
+      {
+        "@type": "PostalAddress",
+        "addressLocality": "الرياض",
+        "addressRegion": "منطقة الرياض",
+        "addressCountry": "SA"
+      }
+    ],
+    "telephone": "+966148442230",
+    "priceRange": "$$$",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday"
+      ],
+      "opens": "08:00",
+      "closes": "16:00"
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="relative">
+      <SEO
+        title="الرئيسية"
+        description="نقدم حلولاً قانونية ذكية وخدمات احترافية في قلب المدينة المنورة والرياض. استشارات متخصصة في القضايا التجارية والمدنية والعمالية."
+        keywords="محاماة، استشارات قانونية، المدينة المنورة، الرياض، محامي تجاري، محامي عمالي، عقاب السحيمي"
+        schema={lawFirmSchema}
+      />
+
       {/* Success Modal */}
       {showSuccess && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -51,7 +97,7 @@ const LandingPage: React.FC = () => {
       {/* Hero */}
       <section className="relative h-screen min-h-[850px] flex items-center overflow-hidden bg-navy-950 text-white">
         <div className="absolute inset-0">
-          <img src="https://png.pngtree.com/thumb_back/fh260/background/20250324/pngtree-a-gold-balance-scale-symbolizes-justice-placed-on-dark-wooden-desk-image_17138389.jpg" className="w-full h-full object-cover opacity-30 grayscale brightness-50" alt="Law Office Background" />
+          <img src="https://png.pngtree.com/thumb_back/fh260/background/20250324/pngtree-a-gold-balance-scale-symbolizes-justice-placed-on-dark-wooden-desk-image_17138389.jpg" className="w-full h-full object-cover opacity-30 grayscale brightness-50" alt="ميزان العدالة - مكتب المحاماة" />
           <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/60 to-transparent" />
         </div>
 
@@ -101,7 +147,7 @@ const LandingPage: React.FC = () => {
               <img
                 key={i}
                 src={p}
-                alt={`Success Partner ${i + 1}`}
+                alt={t(`partners.partner${i + 1}Alt`)}
                 className="h-20 w-auto object-contain"
               />
             ))}

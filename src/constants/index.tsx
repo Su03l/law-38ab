@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Scale, ShieldCheck, Briefcase, Users, Landmark, Gavel } from 'lucide-react';
-import { PracticeArea, BlogPost, Booking } from './types';
+import { PracticeArea, BlogPost, Booking, Employee } from '../types';
 
 export const PRACTICE_AREAS: PracticeArea[] = [
   { id: '1', title: 'قانون الشركات', description: 'تقديم المشورة القانونية لعمليات الاندماج والاستحواذ والامتثال التنظيمي وحوكمة الشركات.', iconName: 'Briefcase' },
@@ -88,7 +88,7 @@ export const IconMap: Record<string, React.ReactNode> = {
 };
 
 // Initial Employees Data
-export const INITIAL_EMPLOYEES = [
+export const INITIAL_EMPLOYEES: Employee[] = [
   { id: '1', name: 'أحمد Mohammed', email: 'ahmed@justicefirm.sa', role: 'محامي أول', status: 'Active' },
   { id: '2', name: 'سارة Ali', email: 'sara@justicefirm.sa', role: 'مستشار قانوني', status: 'Active' },
   { id: '3', name: 'خالد Omar', email: 'khaled@justicefirm.sa', role: 'مساعد قانوني', status: 'Inactive' },

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import BookingWizard from '../components/BookingWizard';
-import { useLanguage } from '../LanguageContext';
+import BookingWizard from '../components/booking/BookingWizard';
+import { useLanguage } from '../context/LanguageContext';
 import { CheckCircle2 } from 'lucide-react';
 
 const BookingPage: React.FC = () => {
