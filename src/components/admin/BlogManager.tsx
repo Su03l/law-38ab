@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Plus, Edit2, Trash2, Image as ImageIcon, Eye, X, CheckCircle, AlertCircle } from 'lucide-react';
-import { BLOG_POSTS } from '../../constants';
-// import { BlogPost } from '../../types'; // inferred
+import { useBlog } from '../../BlogContext';
 import Toast from './Toast';
 
 const BlogManager: React.FC = () => {
-    const [posts, setPosts] = useState(BLOG_POSTS);
+    const { posts, addPost, updatePost, deletePost } = useBlog();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingPost, setEditingPost] = useState<any | null>(null);
     const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -36,17 +35,14 @@ const BlogManager: React.FC = () => {
 
         if (editingPost) {
             // Update
-            setPosts(posts.map(p => p.id === editingPost.id ? { ...p, ...formData } : p));
+            updatePost({ ...editingPost, ...formData });
             setToast({ message: 'تم تحديث المقال بنجاح', type: 'success' });
         } else {
             // Add
-            const newPost = {
-                id: Date.now().toString(),
+            addPost({
                 ...formData,
-                date: new Date().toLocaleDateString('ar-SA'),
                 imageUrl: formData.imageUrl || 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80',
-            };
-            setPosts([newPost, ...posts]);
+            });
             setToast({ message: 'تم نشر المقال الجديد بنجاح', type: 'success' });
         }
         setIsModalOpen(false);
@@ -54,7 +50,7 @@ const BlogManager: React.FC = () => {
 
     const handleDelete = () => {
         if (deleteId) {
-            setPosts(posts.filter(p => p.id !== deleteId));
+            deletePost(deleteId);
             setDeleteId(null);
             setToast({ message: 'تم حذف المقال بنجاح', type: 'success' });
         }

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Scale, Menu, X, ArrowLeft, ShieldCheck } from 'lucide-react';
+import { Menu, X, ArrowLeft, ArrowRight, ShieldCheck, Globe } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import logo from '@/public/logo.png';
+import { useLanguage } from '../LanguageContext';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { t, toggleLang, isAr } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -13,7 +16,6 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Force background if not on home page
   const isHome = location.pathname === '/';
   const headerClass = isHome && !isScrolled
     ? 'bg-transparent py-8'
@@ -21,30 +23,58 @@ const Navbar: React.FC = () => {
 
   const textClass = isHome && !isScrolled ? 'text-white' : 'text-navy-900';
   const navTextClass = isHome && !isScrolled ? 'text-slate-100' : 'text-navy-900';
-  const logoBoxClass = isHome && !isScrolled ? 'bg-gold-500 text-navy-950 shadow-xl' : 'bg-navy-900 text-gold-500 shadow-lg';
   const logoTextClass = isHome && !isScrolled ? 'text-gold-400' : 'text-gold-600';
 
+  const ArrowIcon = isAr ? ArrowLeft : ArrowRight;
+
   const links = [
-    { label: 'الرئيسية', href: '/' },
-    { label: 'عن المكتب', href: '/about' },
-    { label: 'تخصصاتنا', href: '/practice-areas' },
-    { label: 'المدونة', href: '/blog' },
-    { label: 'تواصل معنا', href: '/contact' },
+    { label: t('navbar.home'), href: '/' },
+    { label: t('navbar.about'), href: '/#about' },
+    { label: t('navbar.practiceAreas'), href: '/#practice-areas' },
+    { label: t('navbar.blog'), href: '/#blog' },
+    { label: t('navbar.packages'), href: '/#packages' },
+    { label: t('navbar.contact'), href: '/#contact' },
   ];
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (location.pathname === '/') {
+      e.preventDefault();
+      if (href === '/' || href === '') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (href.includes('#')) {
+        const id = href.split('#')[1];
+        const element = document.getElementById(id);
+        if (element) {
+          /* 
+             Using scrollIntoView directly can sometimes clash if layout shifts.
+             Adding a small offset or verifying element position is sometimes safer.
+             But the user just wants it to work "smoothly".
+          */
+          const offset = 80; // Adjust for fixed navbar height if needed
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
+        }
+      }
+    }
+    setMobileMenuOpen(false);
+  };
+
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-700 ${headerClass}`} dir="rtl">
+    <nav className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-700 ${headerClass}`} dir={isAr ? 'rtl' : 'ltr'}>
       <div className="container mx-auto px-6 flex justify-between items-center">
         <Link to="/" className="flex items-center gap-4 cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <div className={`p-2.5 rounded-2xl transition-all duration-500 ${logoBoxClass}`}>
-            <Scale className="w-8 h-8" />
-          </div>
+          <img src={logo} alt="شعار المكتب" className="w-20 h-20 object-contain -my-4" />
           <div className="flex flex-col">
             <span className={`text-2xl font-serif font-black tracking-tighter leading-tight ${textClass}`}>
-              شركة عقاب السحيمي
+              {t('navbar.companyName')}
             </span>
             <span className={`text-[10px] font-bold uppercase tracking-[0.2em] ${logoTextClass}`}>
-              للمحاماة والاستشارات
+              {t('navbar.companySubtitle')}
             </span>
           </div>
         </Link>
@@ -56,17 +86,28 @@ const Navbar: React.FC = () => {
               key={l.label}
               to={l.href}
               className={`text-sm font-black transition-all hover:text-gold-500 ${navTextClass}`}
+              onClick={(e) => handleNavClick(e, l.href)}
             >
               {l.label}
             </Link>
           ))}
           <div className="h-6 w-px bg-slate-300 mx-2 opacity-30" />
+
+          {/* Language Toggle */}
+          <button
+            onClick={toggleLang}
+            className={`flex items-center gap-2 text-xs font-black transition-all hover:opacity-80 px-3 py-2 rounded-lg border ${isHome && !isScrolled ? 'text-slate-200 border-white/20 hover:bg-white/10' : 'text-navy-900 border-navy-100 hover:bg-navy-50'}`}
+          >
+            <Globe className="w-4 h-4 text-gold-500" />
+            {t('navbar.langToggle')}
+          </button>
+
           <Link
             to="/admin/login"
             className={`flex items-center gap-2 text-xs font-black transition-all hover:opacity-80 ${isHome && !isScrolled ? 'text-slate-300' : 'text-navy-900'}`}
           >
             <ShieldCheck className="w-4 h-4 text-gold-500" />
-            بوابة المسئول
+            {t('navbar.adminPortal')}
           </Link>
           <Link
             to="/booking"
@@ -75,8 +116,8 @@ const Navbar: React.FC = () => {
               : 'bg-navy-900 text-gold-500 hover:shadow-gold-500/20'
               }`}
           >
-            احجز استشارتك
-            <ArrowLeft className="w-4 h-4" />
+            {t('navbar.bookConsultation')}
+            <ArrowIcon className="w-4 h-4" />
           </Link>
         </div>
 
@@ -97,26 +138,36 @@ const Navbar: React.FC = () => {
               <Link
                 key={l.label}
                 to={l.href}
-                className="text-4xl font-serif font-bold text-white hover:text-gold-500 border-b border-white/5 pb-4"
-                onClick={() => setMobileMenuOpen(false)}
+                className="text-4xl font-bold text-white hover:text-gold-500 border-b border-white/5 pb-4"
+                onClick={(e) => handleNavClick(e, l.href)}
               >
                 {l.label}
               </Link>
             ))}
+
+            {/* Mobile Language Toggle */}
+            <button
+              onClick={() => { toggleLang(); }}
+              className="text-2xl font-bold text-gold-400 flex items-center gap-4"
+            >
+              <Globe className="w-8 h-8" />
+              {t('navbar.langToggle')}
+            </button>
+
             <Link
               to="/admin/login"
               className="text-2xl font-bold text-gold-400 flex items-center gap-4"
               onClick={() => setMobileMenuOpen(false)}
             >
               <ShieldCheck className="w-8 h-8" />
-              بوابة المسئول
+              {t('navbar.adminPortal')}
             </Link>
             <Link
               to="/booking"
               className="mt-6 px-10 py-6 bg-gold-500 text-navy-900 rounded-2xl font-black text-2xl text-center shadow-2xl"
               onClick={() => setMobileMenuOpen(false)}
             >
-              احجز استشارتك الآن
+              {t('navbar.bookConsultationNow')}
             </Link>
           </div>
         </div>

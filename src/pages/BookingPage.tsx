@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import BookingWizard from '../components/BookingWizard';
+import { useLanguage } from '../LanguageContext';
 import { CheckCircle2 } from 'lucide-react';
 
 const BookingPage: React.FC = () => {
+    const { t } = useLanguage();
     const [showSuccess, setShowSuccess] = useState(false);
 
     return (
@@ -31,7 +33,7 @@ const BookingPage: React.FC = () => {
                 <div className="absolute top-0 right-0 w-1/3 h-full bg-navy-900 transform translate-x-1/2 -skew-x-12 opacity-5" />
                 <div className="container mx-auto px-6">
                     <div className="text-center mb-20">
-                        <h2 className="text-6xl font-serif font-bold text-navy-900 mb-6 italic">ابدأ رحلتك القانونية</h2>
+                        <h2 className="text-6xl font-serif font-bold text-navy-900 mb-6">{t('booking.pageTitle') || 'ابدأ رحلتك القانونية'}</h2>
                         <p className="text-xl text-slate-500 font-light">الخطوة الأولى نحو حماية حقوقك تبدأ من هنا.</p>
                     </div>
                     <BookingWizard onSuccess={() => setShowSuccess(true)} />
