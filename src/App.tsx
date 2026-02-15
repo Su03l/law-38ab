@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, HashRouter } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import AboutPage from './pages/AboutPage';
 import PracticeAreasPage from './pages/PracticeAreasPage';
@@ -8,6 +8,7 @@ import BookingPage from './pages/BookingPage';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ContactPage from './pages/ContactPage';
+import RequireAuth from './components/auth/RequireAuth';
 import Layout from './components/layout/Layout';
 import { LanguageProvider } from './context/LanguageContext';
 import { BlogProvider } from './context/BlogContext';
@@ -34,8 +35,12 @@ const App: React.FC = () => {
 
               {/* Admin Routes separate from public layout */}
               <Route path="/admin/login" element={<AdminLogin />} />
-              <Route path="/admin/dashboard" element={<AdminDashboard />} />
               <Route path="/login" element={<AdminLogin />} />
+
+              {/* Protected Admin Routes */}
+              <Route element={<RequireAuth />}>
+                <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              </Route>
             </Routes>
           </BrowserRouter>
         </BlogProvider>

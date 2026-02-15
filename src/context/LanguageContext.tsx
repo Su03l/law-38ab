@@ -117,7 +117,7 @@ const translations: Record<string, any> = {
             callUs: 'اتصل بنا',
             email: 'البريد الإلكتروني',
             workHours: 'ساعات العمل',
-            workSchedule: 'الأحد - الخميس: 9:00 ص - 5:00 م',
+            workSchedule: 'الأحد - الخميس: 10:00 ص - 4:00 م',
             weekend: 'الجمعة - السبت: مغلق',
             sendMessage: 'أرسل رسالة فورية',
             fullName: 'الاسم الكامل',
@@ -173,7 +173,7 @@ const translations: Record<string, any> = {
                 },
                 {
                     title: 'الشركات الناشئة (الأساسية)',
-                    price: '3,500',
+                    price: '4,300',
                     features: [
                         '3 استشارات مكتوبة شهرياً',
                         'استشارات هاتفية',
@@ -239,7 +239,7 @@ const translations: Record<string, any> = {
                         '15 خطاب شهرياً',
                         '6 حوكمة شركات',
                         '4 عقود أجنبية',
-                        '16 قضية (أقل من 1 مليون)',
+                        '16 قضية (أقل من 500 ألف)',
                         '10 لوائح ومذكرات',
                         '15 تنفيذ أحكام',
                         '25 صياغة عقود',
@@ -371,7 +371,7 @@ const translations: Record<string, any> = {
             callUs: 'Call Us',
             email: 'Email',
             workHours: 'Working Hours',
-            workSchedule: 'Sun - Thu: 9:00 AM - 5:00 PM',
+            workSchedule: 'Sun - Thu: 10:00 AM - 4:00 PM',
             weekend: 'Fri - Sat: Closed',
             sendMessage: 'Send a Quick Message',
             fullName: 'Full Name',
@@ -427,7 +427,7 @@ const translations: Record<string, any> = {
                 },
                 {
                     title: 'Startup (Basic)',
-                    price: '3,500',
+                    price: '4,300',
                     features: [
                         '3 Written Consultations/mo',
                         'Phone Consultations',
@@ -494,7 +494,7 @@ const translations: Record<string, any> = {
                         '15 Letters/mo',
                         '6 Corporate Governance',
                         '4 Foreign Contracts',
-                        '16 Cases (<1M SAR)',
+                        '16 Cases (<500k SAR)',
                         '10 Regulations',
                         '15 Execution Requests',
                         '25 Contract Drafting',

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { User, Bell, Lock, Globe, Smartphone, Save, ChevronLeft, Building, Mail, MapPin, Shield } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
 import Toast from './Toast';
 
 const SettingsView: React.FC = () => {
@@ -37,13 +38,110 @@ const SettingsView: React.FC = () => {
     });
 
 
-    const handleSave = () => {
-        setLoading(true);
-        // Simulate API call
-        setTimeout(() => {
+
+
+    // Fetch Data on Load
+    React.useEffect(() => {
+        fetchSettings();
+    }, []);
+
+    const fetchSettings = async () => {
+        try {
+            setLoading(true);
+
+            // 1. Fetch User Profile
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                const { data: profileData } = await supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', user.id)
+                    .single();
+
+                if (profileData) {
+                    setProfile({
+                        name: profileData.full_name || '',
+                        role: profileData.role || '',
+                        bio: profileData.bio || '',
+                        email: user.email || ''
+                    });
+                }
+            }
+
+            // 2. Fetch Site Settings
+            const { data: settingsData } = await supabase
+                .from('site_settings')
+                .select('*')
+                .single(); // Assuming single row
+
+            if (settingsData) {
+                setGeneral({
+                    siteName: settingsData.site_name || '',
+                    email: settingsData.contact_email || '',
+                    phone: settingsData.phone || '',
+                    address: settingsData.address || '',
+                    twitter: settingsData.twitter || ''
+                });
+            }
+
+        } catch (error) {
+            console.error('Error fetching settings:', error);
+        } finally {
             setLoading(false);
+        }
+    };
+
+    const handleSave = async () => {
+        setLoading(true);
+        try {
+            // 1. Save General Settings
+            if (activeTab === 'general') {
+                const { error } = await supabase
+                    .from('site_settings')
+                    .update({
+                        site_name: general.siteName,
+                        contact_email: general.email,
+                        phone: general.phone,
+                        address: general.address,
+                        twitter: general.twitter,
+                        updated_at: new Date()
+                    })
+                    .eq('id', true); // Singleton row
+
+                if (error) throw error;
+            }
+
+            // 2. Save Profile Settings
+            if (activeTab === 'profile') {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                    const { error } = await supabase
+                        .from('profiles')
+                        .update({
+                            full_name: profile.name,
+                            role: profile.role,
+                            bio: profile.bio
+                        })
+                        .eq('id', user.id);
+
+                    if (error) throw error;
+                }
+            }
+
+            // 3. Save Security (Placeholder for now)
+            if (activeTab === 'security') {
+                // Implement password change logic here if needed
+                alert('تغيير كلمة المرور يتطلب واجهة خاصة (Reset Password Flow)');
+            }
+
             setToast({ message: 'تم حفظ التغييرات بنجاح', type: 'success' });
-        }, 1000);
+
+        } catch (error) {
+            console.error('Error saving settings:', error);
+            setToast({ message: 'حدث خطأ أثناء الحفظ', type: 'error' });
+        } finally {
+            setLoading(false);
+        }
     };
 
     const tabs = [

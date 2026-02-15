@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Shield, Edit2, Trash2, X, AlertCircle } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
 import { Employee } from '../../types';
 
 interface EmployeesViewProps {
@@ -11,18 +12,47 @@ const EmployeesView: React.FC<EmployeesViewProps> = ({ employees, setEmployees }
     const [editEmployee, setEditEmployee] = useState<Employee | null>(null);
     const [deleteId, setDeleteId] = useState<string | null>(null);
 
-    const handleEditSubmit = (e: React.FormEvent) => {
+    const handleEditSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (editEmployee) {
-            setEmployees(employees.map(emp => emp.id === editEmployee.id ? editEmployee : emp));
-            setEditEmployee(null);
+            try {
+                // Update profile in DB
+                const { error } = await supabase
+                    .from('profiles')
+                    .update({
+                        full_name: editEmployee.name,
+                        role: editEmployee.role
+                        // status is not in our schema yet, we can add it or ignore it for now
+                    })
+                    .eq('id', editEmployee.id);
+
+                if (error) throw error;
+
+                setEmployees(employees.map(emp => emp.id === editEmployee.id ? editEmployee : emp));
+                setEditEmployee(null);
+                alert('تم تحديث البيانات بنجاح');
+            } catch (error) {
+                console.error('Error updating employee:', error);
+                alert('حدث خطأ أثناء التحديث');
+            }
         }
     };
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (deleteId) {
-            setEmployees(employees.filter(emp => emp.id !== deleteId));
-            setDeleteId(null);
+            try {
+                // Call RPC to delete user from auth
+                const { error } = await supabase.rpc('admin_delete_user', { user_id: deleteId });
+
+                if (error) throw error;
+
+                setEmployees(employees.filter(emp => emp.id !== deleteId));
+                setDeleteId(null);
+                alert('تم حذف الموظف بنجاح');
+            } catch (error) {
+                console.error('Error deleting employee:', error);
+                alert('حدث خطأ أثناء الحذف');
+            }
         }
     };
 

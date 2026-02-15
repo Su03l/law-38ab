@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, User, Phone, Mail, CheckCircle, Video, MapPin, ChevronRight, ChevronLeft, ArrowLeft } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
 
 interface BookingWizardProps {
     onSuccess: () => void;
@@ -10,31 +11,82 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
     const [type, setType] = useState<'In-Person' | 'Online'>('In-Person');
-    const [formData, setFormData] = useState({ name: '', phone: '', email: '', notes: '' });
+
+    const [formData, setFormData] = useState({
+        name: '',
+        phone: '',
+        email: '',
+        notes: '',
+        serviceType: '',  // New Field
+        consultationTopic: '' // New Field
+    });
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     // Time slots logic
-    const morningSlots = ['08:00 ص', '09:00 ص', '10:00 ص', '11:00 ص', '12:00 م'];
-    const eveningSlots = ['04:00 م', '05:00 م', '06:00 م', '07:00 م', '08:00 م', '09:00 م'];
+    const morningSlots = [
+        '10:00 ص', '10:30 ص',
+        '11:00 ص', '11:30 ص',
+        '12:00 م', '12:30 م',
+        '01:00 م', '01:30 م',
+        '02:00 م', '02:30 م',
+        '03:00 م', '03:30 م'
+    ];
+    const eveningSlots = [
+        '04:00 م', '04:30 م',
+        '05:00 م', '05:30 م',
+        '06:00 م', '06:30 م',
+        '07:00 م', '07:30 م',
+        '08:00 م', '08:30 م',
+        '09:00 م', '09:30 م',
+        '10:00 م'
+    ];
 
     const handleNext = () => setStep(prev => prev + 1);
     const handleBack = () => setStep(prev => prev - 1);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         setIsSubmitting(true);
-        // Simulate API call
-        setTimeout(() => {
-            setIsSubmitting(false);
+        try {
+            const { error } = await supabase
+                .from('bookings')
+                .insert([
+                    {
+                        client_name: formData.name,
+                        email: formData.email,
+                        phone: formData.phone,
+                        notes: formData.notes,
+                        date: date,
+                        time: time,
+                        type: type,
+
+                        service_type: formData.serviceType, // Map to DB column
+                        consultation_topic: formData.consultationTopic, // Map to DB column
+                        status: 'Pending'
+                    }
+                ]);
+
+            if (error) throw error;
+
             onSuccess();
-        }, 1500);
+        } catch (error) {
+            console.error('Error submitting booking:', error);
+            alert('حدث خطأ أثناء حجز الموعد. يرجى المحاولة مرة أخرى.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
-    const isMorning = morningSlots.includes(time);
+    const isEvening = eveningSlots.includes(time);
 
     // Auto-set type based on time
     useEffect(() => {
-        if (isMorning) setType('In-Person');
-    }, [time, isMorning]);
+        if (isEvening) {
+            setType('Online');
+        } else if (time && morningSlots.includes(time)) {
+            // Optional: Reset to default if switching back to morning, or keep user selection
+            // For now, let's not force In-Person for morning, let user choose.
+        }
+    }, [time, isEvening]);
 
 
     return (
@@ -142,8 +194,8 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                                                 key={t}
                                                 onClick={() => setTime(t)}
                                                 className={`py-3 px-2 text-sm font-bold rounded-xl border transition-all ${time === t
-                                                        ? 'bg-navy-900 text-gold-500 border-navy-900 shadow-lg'
-                                                        : 'bg-white text-slate-500 border-slate-200 hover:border-gold-300 hover:bg-gold-50/10'
+                                                    ? 'bg-navy-900 text-gold-500 border-navy-900 shadow-lg'
+                                                    : 'bg-white text-slate-500 border-slate-200 hover:border-gold-300 hover:bg-gold-50/10'
                                                     }`}
                                             >
                                                 {t}
@@ -169,23 +221,25 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                                         <label className="text-sm font-bold text-navy-900 mb-3 block">نوع الحضور</label>
                                         <div className="flex gap-4">
                                             <button
+                                                disabled={isEvening}
                                                 onClick={() => setType('In-Person')}
-                                                className={`flex-1 flex items-center justify-center gap-3 p-4 rounded-xl border-2 transition-all ${type === 'In-Person' ? 'bg-gold-50 border-gold-500 text-navy-900' : 'bg-white border-slate-100 text-slate-400 hover:border-slate-200'
+                                                className={`flex-1 flex items-center justify-center gap-3 p-4 rounded-xl border-2 transition-all ${type === 'In-Person'
+                                                    ? 'bg-gold-50 border-gold-500 text-navy-900'
+                                                    : isEvening
+                                                        ? 'bg-slate-50 border-slate-50 text-slate-300 cursor-not-allowed'
+                                                        : 'bg-white border-slate-100 text-slate-400 hover:border-slate-200'
                                                     }`}
+                                                title={isEvening ? 'غير متاح للمواعيد المسائية' : ''}
                                             >
                                                 <MapPin className="w-5 h-5" />
                                                 <span className="font-bold text-sm">حضور شخصي</span>
                                             </button>
                                             <button
-                                                disabled={isMorning} // Disabled for morning slots as implied by previous logic
                                                 onClick={() => setType('Online')}
                                                 className={`flex-1 flex items-center justify-center gap-3 p-4 rounded-xl border-2 transition-all ${type === 'Online'
-                                                        ? 'bg-gold-50 border-gold-500 text-navy-900'
-                                                        : isMorning
-                                                            ? 'bg-slate-50 border-slate-50 text-slate-300 cursor-not-allowed'
-                                                            : 'bg-white border-slate-100 text-slate-400 hover:border-slate-200'
+                                                    ? 'bg-gold-50 border-gold-500 text-navy-900'
+                                                    : 'bg-white border-slate-100 text-slate-400 hover:border-slate-200'
                                                     }`}
-                                                title={isMorning ? 'غير متاح للفترات الصباحية' : ''}
                                             >
                                                 <Video className="w-5 h-5" />
                                                 <span className="font-bold text-sm">عن بعد (أونلاين)</span>
@@ -262,6 +316,41 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                                     </div>
                                 </div>
 
+                                {/* New Fields: Service Type & Topic */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                    <div className="group">
+                                        <label className="text-sm font-bold text-navy-900 mb-1.5 block">نوع الاستشارة</label>
+                                        <div className="relative">
+                                            <select
+                                                className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-gold-500 focus:bg-white transition-all font-medium appearance-none cursor-pointer"
+                                                value={formData.serviceType}
+                                                onChange={e => setFormData({ ...formData, serviceType: e.target.value })}
+                                            >
+                                                <option value="" disabled>اختر نوع الاستشارة...</option>
+                                                <option value="استشارة عامة">استشارة عامة</option>
+                                                <option value="قضايا تجارية">قضايا تجارية</option>
+                                                <option value="قضايا عمالية">قضايا عمالية</option>
+                                                <option value="قضايا جنائية">قضايا جنائية</option>
+                                                <option value="قضايا أحوال شخصية">قضايا أحوال شخصية</option>
+                                                <option value="صياغة عقود">صياغة عقود</option>
+                                                <option value="أخرى">أخرى</option>
+                                            </select>
+                                            <ChevronLeft className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
+                                        </div>
+                                    </div>
+
+                                    <div className="group">
+                                        <label className="text-sm font-bold text-navy-900 mb-1.5 block">موضوع الاستشارة</label>
+                                        <input
+                                            type="text"
+                                            placeholder="مثال: تأسيس شركة، نزاع تجاري..."
+                                            className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-gold-500 focus:bg-white transition-all font-medium"
+                                            value={formData.consultationTopic}
+                                            onChange={e => setFormData({ ...formData, consultationTopic: e.target.value })}
+                                        />
+                                    </div>
+                                </div>
+
                                 <div className="group">
                                     <label className="text-sm font-bold text-navy-900 mb-1.5 block">ملاحظات إضافية (اختياري)</label>
                                     <textarea
@@ -277,7 +366,7 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                             <div className="mt-8 flex justify-between items-center">
                                 <button onClick={handleBack} className="text-slate-400 font-bold hover:text-navy-900 transition-colors">عودة للخلف</button>
                                 <button
-                                    disabled={!formData.name || !formData.phone}
+                                    disabled={!formData.name || !formData.phone || !formData.serviceType}
                                     onClick={handleNext}
                                     className="group flex items-center gap-2 px-8 py-4 bg-navy-900 text-white rounded-xl font-bold hover:bg-navy-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-navy-900/10"
                                 >
@@ -321,6 +410,18 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                                         <div>
                                             <p className="text-xs text-slate-400 font-bold mb-1">صاحب الطلب</p>
                                             <p className="text-navy-900 font-bold truncate">{formData.name}</p>
+                                        </div>
+                                    </div>
+
+                                    {/* Confirmation Extra Details */}
+                                    <div className="pt-4 border-t border-slate-200 grid grid-cols-2 gap-4">
+                                        <div>
+                                            <p className="text-xs text-slate-400 font-bold mb-1">مجال الاستشارة</p>
+                                            <p className="text-navy-900 font-bold">{formData.serviceType || '-'}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-slate-400 font-bold mb-1">الموضوع</p>
+                                            <p className="text-navy-900 font-bold truncate">{formData.consultationTopic || '-'}</p>
                                         </div>
                                     </div>
                                 </div>

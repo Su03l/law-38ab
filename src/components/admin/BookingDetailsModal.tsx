@@ -41,7 +41,7 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({ booking, onCl
                             {/* Client Info */}
                             <div className="flex items-center gap-4">
                                 <div className="w-16 h-16 bg-navy-900 text-gold-500 rounded-full flex items-center justify-center text-2xl font-black">
-                                    {booking.clientName.charAt(0)}
+                                    {(booking.clientName || 'C').charAt(0)}
                                 </div>
                                 <div>
                                     <h5 className="text-xl font-black text-navy-900">{booking.clientName}</h5>

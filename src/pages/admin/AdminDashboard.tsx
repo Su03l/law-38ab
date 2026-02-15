@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LayoutDashboard, Calendar, FileText, Settings, LogOut, Bell, Search, Plus, CheckCircle, XCircle, MoreVertical, UserPlus, Menu, X, Eye, AlertCircle } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
 import { INITIAL_BOOKINGS, INITIAL_EMPLOYEES } from '../../constants';
 import { Booking, BookingStatus, Employee } from '../../types';
 import { useNavigate } from 'react-router-dom';
@@ -57,7 +58,8 @@ const generateMockBookings = () => {
 const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
-  const [bookings, setBookings] = useState<Booking[]>(generateMockBookings());
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
   const [employees, setEmployees] = useState<Employee[]>(INITIAL_EMPLOYEES);
   const [showStaffModal, setShowStaffModal] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -67,9 +69,101 @@ const AdminDashboard: React.FC = () => {
   const [actionModal, setActionModal] = useState<{ type: 'accept' | 'reject' | 'complete' | null, bookingId: string | null }>({ type: null, bookingId: null });
   const [rejectionReason, setRejectionReason] = useState('');
 
+  // Admin Profile State
+  const [adminProfile, setAdminProfile] = useState<{ name: string, email: string, role: string } | null>(null);
+
+  // Fetch Data
+  useEffect(() => {
+    fetchBookings();
+    fetchEmployees();
+    fetchAdminProfile();
+  }, []);
+
+  const fetchAdminProfile = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+      if (data) {
+        setAdminProfile({
+          name: data.full_name || 'Admin',
+          email: data.email || user.email || '',
+          role: data.role || 'Admin'
+        });
+      }
+    }
+  };
+
+  const fetchBookings = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('bookings')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      if (data) {
+        const mappedBookings: Booking[] = data.map((b: any) => ({
+          id: b.id,
+          clientName: b.client_name,
+          email: b.email,
+          phone: b.phone,
+          date: b.date,
+          time: b.time,
+          type: b.type,
+          status: b.status,
+          serviceType: b.service_type,
+          consultationTopic: b.consultation_topic,
+          details: b.notes, // 'notes' in DB, 'details' in Booking interface? Let's check BookingWizard. insert uses 'notes'
+        }));
+        setBookings(mappedBookings);
+      }
+    } catch (error) {
+      console.error('Error fetching bookings:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchEmployees = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .neq('role', 'user'); // Get all staff (admins, lawyers, etc)
+
+      if (error) throw error;
+
+      if (data) {
+        const mappedEmployees: Employee[] = data.map((p: any) => ({
+          id: p.id,
+          name: p.full_name || 'موظف',
+          email: p.email,
+          role: p.role,
+          status: 'Active'
+        }));
+        setEmployees(mappedEmployees);
+      }
+    } catch (error) {
+      console.error('Error fetching employees:', error);
+    }
+  };
+
   // Status Helpers
-  const updateStatus = (id: string, newStatus: BookingStatus) => {
-    setBookings(prev => prev.map(b => b.id === id ? { ...b, status: newStatus } : b));
+  const updateStatus = async (id: string, newStatus: BookingStatus) => {
+    try {
+      const { error } = await supabase
+        .from('bookings')
+        .update({ status: newStatus })
+        .eq('id', id);
+
+      if (error) throw error;
+
+      // Optimistic update
+      setBookings(prev => prev.map(b => b.id === id ? { ...b, status: newStatus } : b));
+    } catch (error) {
+      console.error('Error updating status:', error);
+      alert('فشل تحديث الحالة');
+    }
   };
 
   const confirmAction = () => {
@@ -111,24 +205,37 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
-  const handleAddEmployee = (e: React.FormEvent) => {
-    // ... same as before
+  const handleAddEmployee = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;
     const role = formData.get('role') as string;
+    const password = formData.get('password') as string;
 
-    if (name && email && role) {
-      const newEmployee: Employee = {
-        id: Date.now().toString(),
-        name,
-        email,
-        role,
-        status: 'Active',
-      };
-      setEmployees([...employees, newEmployee]);
+    if (!email || !password) return;
+
+    try {
+      setLoading(true);
+
+      const { data, error } = await supabase.rpc('admin_create_user', {
+        email: email,
+        password: password,
+        full_name: name,
+        role_val: role
+      });
+
+      if (error) throw error;
+
+      alert('تم إضافة الموظف بنجاح!');
       setShowStaffModal(false);
+      fetchEmployees(); // Refresh list
+
+    } catch (error: any) {
+      console.error('Error adding employee:', error);
+      alert('حدث خطأ: ' + (error.message || 'فشل إضافة الموظف'));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -263,11 +370,24 @@ const AdminDashboard: React.FC = () => {
       {/* Sidebar */}
       <aside className={`fixed inset-y-0 right-0 z-50 w-72 bg-navy-950 text-white flex flex-col shadow-2xl transition-transform duration-300 lg:translate-x-0 ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         } lg:static`}>
-        <div className="p-10 flex items-center justify-between lg:justify-start gap-4">
+        <div className="p-10 flex flex-col gap-6">
           <div className="flex items-center gap-4">
             <div className="w-10 h-10 bg-gold-500 rounded-xl flex items-center justify-center text-navy-950 font-black text-2xl">ع</div>
             <span className="text-2xl font-serif font-bold tracking-tight">إدارة العدل</span>
           </div>
+
+          {/* Admin Profile Widget */}
+          {adminProfile && (
+            <div className="bg-navy-900/50 p-4 rounded-2xl flex items-center gap-3 border border-navy-800">
+              <div className="w-10 h-10 bg-slate-700 rounded-full flex items-center justify-center font-bold text-lg text-white">
+                {adminProfile.name.charAt(0)}
+              </div>
+              <div className="overflow-hidden">
+                <p className="font-bold text-white truncate">{adminProfile.name}</p>
+                <p className="text-xs text-gold-500 truncate">{adminProfile.role}</p>
+              </div>
+            </div>
+          )}
         </div>
         <nav className="flex-1 px-6 py-8 space-y-2">
           {navItems.map((item) => (

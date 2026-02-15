@@ -8,95 +8,94 @@ const ContactSection: React.FC = () => {
     return (
         <section id="contact" className="py-24 relative bg-slate-50">
             <div className="container mx-auto px-6">
-                <div className="text-center mb-16">
-                    <h2 className="text-5xl font-serif font-bold text-navy-900 mb-6">{t('contact.sectionTitle')}</h2>
-                    <p className="text-xl text-slate-500 font-light max-w-2xl mx-auto">{t('contact.subtitle')}</p>
+                <div className="text-center mb-12">
+                    <h2 className="text-4xl font-serif font-bold text-navy-900 mb-4">{t('contact.sectionTitle')}</h2>
+                    <p className="text-lg text-slate-500 font-light max-w-2xl mx-auto">{t('contact.subtitle')}</p>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    {/* Contact Info */}
-                    <div className="space-y-8">
-                        {/* Madinah Address */}
-                        <div className="bg-white p-8 rounded-[32px] shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200 flex items-start gap-6 hover:-translate-y-1">
-                            <div className="w-14 h-14 bg-gold-500/10 rounded-2xl flex items-center justify-center shrink-0">
-                                <MapPin className="w-7 h-7 text-gold-600" />
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    {/* Madinah Address */}
+                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                        <div className="flex items-start gap-4">
+                            <div className="w-12 h-12 bg-gold-500/10 rounded-xl flex items-center justify-center shrink-0">
+                                <MapPin className="w-6 h-6 text-gold-600" />
                             </div>
                             <div>
-                                <h4 className="text-xl font-bold text-navy-900 mb-2">{t('contact.mainAddress')}</h4>
-                                <p className="text-slate-500 leading-relaxed whitespace-pre-line">{t('contact.madinahAddress')}</p>
-                            </div>
-                        </div>
-
-                        {/* Riyadh Address */}
-                        <div className="bg-white p-8 rounded-[32px] shadow-lg flex items-start gap-6 hover:shadow-xl transition-shadow border border-slate-100">
-                            <div className="w-14 h-14 bg-gold-500/10 rounded-2xl flex items-center justify-center shrink-0">
-                                <MapPin className="w-7 h-7 text-gold-600" />
-                            </div>
-                            <div>
-                                <h4 className="text-xl font-bold text-navy-900 mb-2">{t('contact.mainAddress')}</h4>
-                                <p className="text-slate-500 leading-relaxed whitespace-pre-line">{t('contact.riyadhAddress')}</p>
-                            </div>
-                        </div>
-
-                        {/* Phone */}
-                        <div className="bg-white p-8 rounded-[32px] shadow-lg flex items-start gap-6 hover:shadow-xl transition-shadow border border-slate-100">
-                            <div className="w-14 h-14 bg-gold-500/10 rounded-2xl flex items-center justify-center shrink-0">
-                                <Phone className="w-7 h-7 text-gold-600" />
-                            </div>
-                            <div>
-                                <h4 className="text-xl font-bold text-navy-900 mb-2">{t('contact.callUs')}</h4>
-                                <p className="text-slate-500" dir="ltr">0148442230</p>
-                                <p className="text-slate-500" dir="ltr">0553300581</p>
-                            </div>
-                        </div>
-
-                        {/* Email */}
-                        <div className="bg-white p-8 rounded-[32px] shadow-lg flex items-start gap-6 hover:shadow-xl transition-shadow border border-slate-100">
-                            <div className="w-14 h-14 bg-gold-500/10 rounded-2xl flex items-center justify-center shrink-0">
-                                <Mail className="w-7 h-7 text-gold-600" />
-                            </div>
-                            <div>
-                                <h4 className="text-xl font-bold text-navy-900 mb-2">{t('contact.email')}</h4>
-                                <p className="text-slate-500">info@oqab.sa</p>
-                                <p className="text-slate-500">www.oqab.sa</p>
-                            </div>
-                        </div>
-
-                        {/* Working Hours */}
-                        <div className="bg-white p-8 rounded-[32px] shadow-lg flex items-start gap-6 hover:shadow-xl transition-shadow border border-slate-100">
-                            <div className="w-14 h-14 bg-gold-500/10 rounded-2xl flex items-center justify-center shrink-0">
-                                <Clock className="w-7 h-7 text-gold-600" />
-                            </div>
-                            <div>
-                                <h4 className="text-xl font-bold text-navy-900 mb-2">{t('contact.workHours')}</h4>
-                                <p className="text-slate-500">{t('contact.workSchedule')}</p>
-                                <p className="text-slate-500">{t('contact.weekend')}</p>
+                                <h4 className="text-lg font-bold text-navy-900 mb-2">{t('contact.mainAddress')}</h4>
+                                <p className="text-sm text-slate-500 leading-relaxed whitespace-pre-line">{t('contact.madinahAddress')}</p>
                             </div>
                         </div>
                     </div>
 
-                    {/* Mini Contact Form */}
-                    <div className="bg-navy-950 p-10 rounded-[40px] text-white relative overflow-hidden">
-                        <div className="absolute top-0 left-0 w-64 h-64 bg-gold-500/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-                        <h3 className="text-3xl font-serif font-bold mb-8 relative z-10">{t('contact.sendMessage')}</h3>
-                        <form className="space-y-6 relative z-10">
+                    {/* Riyadh Address */}
+                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                        <div className="flex items-start gap-4">
+                            <div className="w-12 h-12 bg-gold-500/10 rounded-xl flex items-center justify-center shrink-0">
+                                <MapPin className="w-6 h-6 text-gold-600" />
+                            </div>
+                            <div>
+                                <h4 className="text-lg font-bold text-navy-900 mb-2">{t('contact.riyadhAddress').split('\n')[0]}</h4>
+                                <p className="text-sm text-slate-500 leading-relaxed whitespace-pre-line">{t('contact.riyadhAddress')}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Quick Contact Info */}
+                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                        <div className="flex flex-col gap-5">
+                            <div className="flex items-center gap-3">
+                                <Phone className="w-5 h-5 text-gold-600 shrink-0" />
+                                <div className="text-sm text-slate-500" dir="ltr">0553300581</div>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <Mail className="w-5 h-5 text-gold-600 shrink-0" />
+                                <div className="text-sm text-slate-500">info@oqab.sa</div>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <Clock className="w-5 h-5 text-gold-600 shrink-0" />
+                                <div className="text-sm text-slate-500">{t('contact.workSchedule')}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch pt-2">
+                    {/* Contact Form */}
+                    <div className="bg-white p-8 rounded-[32px] shadow-lg border border-slate-100">
+                        <h3 className="text-2xl font-serif font-bold text-navy-900 mb-6">{t('contact.sendMessage')}</h3>
+                        <form className="space-y-5">
                             <div className="space-y-2">
-                                <label className="text-sm font-bold text-slate-400">{t('contact.fullName')}</label>
-                                <input type="text" className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl outline-none focus:border-gold-500 focus:bg-white/10 transition-all text-lg" placeholder={t('contact.namePlaceholder')} />
+                                <label className="text-sm font-bold text-slate-500">{t('contact.fullName')}</label>
+                                <input type="text" className="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-gold-500 focus:bg-white transition-all" placeholder={t('contact.namePlaceholder')} />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-sm font-bold text-slate-400">{t('contact.emailLabel')}</label>
-                                <input type="email" className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl outline-none focus:border-gold-500 transition-colors" placeholder={t('contact.emailPlaceholder')} />
+                                <label className="text-sm font-bold text-slate-500">{t('contact.emailLabel')}</label>
+                                <input type="email" className="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-gold-500 focus:bg-white transition-all" placeholder={t('contact.emailPlaceholder')} />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-sm font-bold text-slate-400">{t('contact.messageLabel')}</label>
-                                <textarea rows={4} className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl outline-none focus:border-gold-500 transition-colors resize-none" placeholder={t('contact.messagePlaceholder')} />
+                                <label className="text-sm font-bold text-slate-500">{t('contact.messageLabel')}</label>
+                                <textarea rows={4} className="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-gold-500 focus:bg-white transition-all resize-none" placeholder={t('contact.messagePlaceholder')} />
                             </div>
-                            <button className="w-full py-5 bg-gold-500 text-navy-950 font-black rounded-2xl hover:bg-white hover:text-navy-900 transition-all shadow-lg hover:shadow-gold-500/50 flex items-center justify-center gap-3 text-lg">
+                            <button className="w-full py-4 bg-navy-900 text-white font-bold rounded-xl hover:bg-gold-500 hover:text-navy-900 transition-all shadow-lg flex items-center justify-center gap-2">
                                 {t('contact.send')}
                                 <Send className="w-5 h-5" />
                             </button>
                         </form>
+                    </div>
+
+                    {/* Map */}
+                    <div className="rounded-[32px] overflow-hidden shadow-lg border border-slate-100 h-full min-h-[500px]">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3631.0264091699655!2d39.649484199999996!3d24.484541800000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15bdbfbf520eb221%3A0x6cbe02899b0ab174!2z2LTYsdmD2Kkg2LnZgtin2Kgg2KfZhNiz2K3ZitmF2Yog2YTZhNmF2K3Yp9mF2KfYqSDZiNin2YTYp9iz2KrYtNin2LHYp9iqINin2YTZgtin2YbZiNmG2YrYqQ!5e0!3m2!1sen!2ssa!4v1771191250373!5m2!1sen!2ssa"
+                            width="100%"
+                            height="100%"
+                            style={{ border: 0 }}
+                            allowFullScreen
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                            title="Google Maps"
+                            className="w-full h-full"
+                        />
                     </div>
                 </div>
             </div>
