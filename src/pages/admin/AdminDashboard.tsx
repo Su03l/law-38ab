@@ -16,7 +16,6 @@ const generateMockBookings = () => {
   const today = new Date();
   const bookings = [...INITIAL_BOOKINGS];
 
-  // Add some specific bookings for the next few days to demonstrate functionality
   for (let i = 0; i < 7; i++) {
     const date = new Date(today);
     date.setDate(today.getDate() + i);
