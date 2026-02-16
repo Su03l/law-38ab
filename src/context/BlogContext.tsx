@@ -20,23 +20,26 @@ export const useBlog = () => {
 };
 
 export const BlogProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    // Initialize from localStorage or fallback to constants
+    // Initialize from sessionStorage or fallback to constants
     const [posts, setPosts] = useState<BlogPost[]>(() => {
-        const savedPosts = localStorage.getItem('blog_posts');
+        // Cleanup old localStorage if exists
+        localStorage.removeItem('blog_posts');
+
+        const savedPosts = sessionStorage.getItem('blog_posts');
         if (savedPosts) {
             try {
                 return JSON.parse(savedPosts);
             } catch (e) {
-                console.error('Failed to parse blog posts from localStorage', e);
+                console.error('Failed to parse blog posts from sessionStorage', e);
                 return BLOG_POSTS;
             }
         }
         return BLOG_POSTS;
     });
 
-    // Sync to localStorage whenever posts change
+    // Sync to sessionStorage whenever posts change
     useEffect(() => {
-        localStorage.setItem('blog_posts', JSON.stringify(posts));
+        sessionStorage.setItem('blog_posts', JSON.stringify(posts));
     }, [posts]);
 
     const addPost = (postData: Omit<BlogPost, 'id' | 'date'>) => {
