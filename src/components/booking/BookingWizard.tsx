@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Clock, User, Phone, Mail, CheckCircle, Video, MapPin, ChevronRight, ChevronLeft, ArrowLeft } from 'lucide-react';
+import { Calendar, Clock, User, Phone, Mail, CheckCircle, Video, MapPin, ChevronRight, ChevronLeft, ArrowLeft, ArrowRight } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+
+import { useLanguage } from '../../context/LanguageContext';
 
 interface BookingWizardProps {
     onSuccess: () => void;
 }
 
 const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
+    const { t, isAr } = useLanguage();
     const [step, setStep] = useState(1);
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
@@ -90,7 +93,7 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
 
 
     return (
-        <div className="max-w-5xl mx-auto min-h-[700px] flex flex-col md:flex-row bg-white rounded-[40px] shadow-2xl border border-slate-100 overflow-hidden font-sans" dir="rtl">
+        <div className="max-w-5xl mx-auto min-h-[700px] flex flex-col md:flex-row bg-white rounded-[40px] shadow-2xl border border-slate-100 overflow-hidden font-sans" dir={isAr ? 'rtl' : 'ltr'}>
 
             {/* Sidebar / Header Area */}
             <div className="md:w-1/3 bg-navy-950 p-10 flex flex-col justify-between text-white relative overflow-hidden">
@@ -103,12 +106,10 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                         <Calendar className="w-8 h-8 text-navy-950" />
                     </div>
 
-                    <h2 className="text-sm font-bold text-gold-500 uppercase tracking-widest mb-3">ابدأ رحلتك القانونية</h2>
-                    <h3 className="text-3xl font-serif font-bold text-white mb-6 leading-tight">الخطوة الأولى نحو حماية حقوقك تبدأ من هنا.</h3>
-                    <p className="text-slate-400 leading-relaxed font-light text-sm">
-                        احجز استشارتك القانونية
-                        <br />
-                        نسعد بتقديم الدعم القانوني اللازم لك ولأعمالك عبر فريقنا المتخصص.
+                    <h2 className="text-sm font-bold text-gold-500 uppercase tracking-widest mb-3">{t('booking.title')}</h2>
+                    <h3 className="text-3xl font-serif font-bold text-white mb-6 leading-tight">{t('booking.subtitle')}</h3>
+                    <p className="text-slate-400 leading-relaxed font-light text-sm whitespace-pre-line">
+                        {t('booking.desc')}
                     </p>
                 </div>
 
@@ -121,8 +122,8 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                             {step > 1 ? <CheckCircle className="w-6 h-6" /> : <span className="font-bold font-serif">١</span>}
                         </div>
                         <div className="flex flex-col">
-                            <span className={`text-sm font-bold transition-colors ${step >= 1 ? 'text-white' : 'text-slate-500'}`}>الموعد والنوع</span>
-                            {step === 1 && <span className="text-[10px] text-gold-500 animate-pulse">جاري الاختيار...</span>}
+                            <span className={`text-sm font-bold transition-colors ${step >= 1 ? 'text-white' : 'text-slate-500'}`}>{t('booking.steps.1')}</span>
+                            {step === 1 && <span className="text-[10px] text-gold-500 animate-pulse">{t('booking.stepStatus.1')}</span>}
                         </div>
                     </div>
 
@@ -136,8 +137,8 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                             {step > 2 ? <CheckCircle className="w-6 h-6" /> : <span className="font-bold font-serif">٢</span>}
                         </div>
                         <div className="flex flex-col">
-                            <span className={`text-sm font-bold transition-colors ${step >= 2 ? 'text-white' : 'text-slate-500'}`}>البيانات الشخصية</span>
-                            {step === 2 && <span className="text-[10px] text-gold-500 animate-pulse">جاري الإدخال...</span>}
+                            <span className={`text-sm font-bold transition-colors ${step >= 2 ? 'text-white' : 'text-slate-500'}`}>{t('booking.steps.2')}</span>
+                            {step === 2 && <span className="text-[10px] text-gold-500 animate-pulse">{t('booking.stepStatus.2')}</span>}
                         </div>
                     </div>
 
@@ -151,8 +152,8 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                             <span className="font-bold font-serif">٣</span>
                         </div>
                         <div className="flex flex-col">
-                            <span className={`text-sm font-bold transition-colors ${step >= 3 ? 'text-white' : 'text-slate-500'}`}>التأكيد النهائي</span>
-                            {step === 3 && <span className="text-[10px] text-gold-500 animate-pulse">المرحلة الأخيرة</span>}
+                            <span className={`text-sm font-bold transition-colors ${step >= 3 ? 'text-white' : 'text-slate-500'}`}>{t('booking.steps.3')}</span>
+                            {step === 3 && <span className="text-[10px] text-gold-500 animate-pulse">{t('booking.stepStatus.3')}</span>}
                         </div>
                     </div>
                 </div>
@@ -166,14 +167,14 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                     {step === 1 && (
                         <div className="flex-1 flex flex-col animate-in fade-in slide-in-from-right-4 duration-500">
                             <div className="mb-8">
-                                <h2 className="text-2xl font-serif font-bold text-navy-900 mb-2">١. اختيار الموعد المناسب</h2>
-                                <p className="text-slate-500 text-sm">يرجى تحديد التاريخ والوقت المفضل لاستشارتك.</p>
+                                <h2 className="text-2xl font-serif font-bold text-navy-900 mb-2">{t('booking.step1.title')}</h2>
+                                <p className="text-slate-500 text-sm">{t('booking.step1.subtitle')}</p>
                             </div>
 
                             <div className="space-y-6 flex-1">
                                 {/* Date Input */}
                                 <div className="space-y-2">
-                                    <label className="text-sm font-bold text-navy-900">تاريخ الاستشارة</label>
+                                    <label className="text-sm font-bold text-navy-900">{t('booking.step1.dateLabel')}</label>
                                     <div className="relative">
                                         <input
                                             type="date"
@@ -187,7 +188,7 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
 
                                 {/* Time Slots */}
                                 <div className="space-y-2">
-                                    <label className="text-sm font-bold text-navy-900">الوقت المتاح</label>
+                                    <label className="text-sm font-bold text-navy-900">{t('booking.step1.timeLabel')}</label>
                                     <div className="grid grid-cols-3 gap-3">
                                         {[...morningSlots.slice(0, 3), ...eveningSlots.slice(0, 3)].map(t => (
                                             <button
@@ -209,7 +210,7 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                                             className="w-full py-3 px-4 bg-slate-50 text-slate-600 font-bold rounded-xl border border-slate-200 outline-none focus:border-gold-500 transition-all text-center text-sm appearance-none cursor-pointer hover:bg-slate-100"
                                             value={morningSlots.slice(0, 3).includes(time) || eveningSlots.slice(0, 3).includes(time) ? '' : time}
                                         >
-                                            <option value="" disabled>عرض بقية المواعيد المتاحة...</option>
+                                            <option value="" disabled>{t('booking.step1.moreSlots')}</option>
                                             {[...morningSlots, ...eveningSlots].map(t => <option key={t} value={t}>{t}</option>)}
                                         </select>
                                     </div>
@@ -218,7 +219,7 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                                 {/* Type Selection */}
                                 {time && (
                                     <div className="pt-6 border-t border-slate-100 animate-in fade-in">
-                                        <label className="text-sm font-bold text-navy-900 mb-3 block">نوع الحضور</label>
+                                        <label className="text-sm font-bold text-navy-900 mb-3 block">{t('booking.step1.typeLabel')}</label>
                                         <div className="flex gap-4">
                                             <button
                                                 disabled={isEvening}
@@ -232,7 +233,7 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                                                 title={isEvening ? 'غير متاح للمواعيد المسائية' : ''}
                                             >
                                                 <MapPin className="w-5 h-5" />
-                                                <span className="font-bold text-sm">حضور شخصي</span>
+                                                <span className="font-bold text-sm">{t('booking.step1.inPerson')}</span>
                                             </button>
                                             <button
                                                 onClick={() => setType('Online')}
@@ -242,7 +243,7 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                                                     }`}
                                             >
                                                 <Video className="w-5 h-5" />
-                                                <span className="font-bold text-sm">عن بعد (أونلاين)</span>
+                                                <span className="font-bold text-sm">{t('booking.step1.online')}</span>
                                             </button>
                                         </div>
                                     </div>
@@ -255,8 +256,12 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                                     onClick={handleNext}
                                     className="group flex items-center gap-2 px-8 py-4 bg-navy-900 text-white rounded-xl font-bold hover:bg-navy-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-navy-900/10"
                                 >
-                                    المتابعة للبيانات
-                                    <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                                    {t('booking.step1.next')}
+                                    {isAr ? (
+                                        <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                                    ) : (
+                                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                    )}
                                 </button>
                             </div>
                         </div>
@@ -267,19 +272,19 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                     {step === 2 && (
                         <div className="flex-1 flex flex-col animate-in fade-in slide-in-from-right-4 duration-500">
                             <div className="mb-8">
-                                <h2 className="text-2xl font-serif font-bold text-navy-900 mb-2">٢. البيانات الشخصية</h2>
-                                <p className="text-slate-500 text-sm">يرجى إدخال معلومات التواصل الخاصة بك.</p>
+                                <h2 className="text-2xl font-serif font-bold text-navy-900 mb-2">{t('booking.step2.title')}</h2>
+                                <p className="text-slate-500 text-sm">{t('booking.step2.subtitle')}</p>
                             </div>
 
                             <div className="space-y-5 flex-1">
                                 <div className="group">
-                                    <label className="text-sm font-bold text-navy-900 mb-1.5 block">الاسم الكامل</label>
+                                    <label className="text-sm font-bold text-navy-900 mb-1.5 block">{t('booking.step2.nameLabel')}</label>
                                     <div className="relative">
-                                        <User className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-gold-500 transition-colors" />
+                                        <User className={`absolute ${isAr ? 'right-4' : 'left-4'} top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-gold-500 transition-colors`} />
                                         <input
                                             type="text"
-                                            placeholder="الاسم الثلاثي"
-                                            className="w-full pr-12 pl-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-gold-500 focus:bg-white transition-all font-medium"
+                                            placeholder={t('booking.step2.namePlaceholder')}
+                                            className={`w-full ${isAr ? 'pr-12 pl-4' : 'pl-12 pr-4'} py-3.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-gold-500 focus:bg-white transition-all font-medium`}
                                             value={formData.name}
                                             onChange={e => setFormData({ ...formData, name: e.target.value })}
                                         />
@@ -287,9 +292,9 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                                 </div>
 
                                 <div className="group">
-                                    <label className="text-sm font-bold text-navy-900 mb-1.5 block">رقم الجوال</label>
+                                    <label className="text-sm font-bold text-navy-900 mb-1.5 block">{t('booking.step2.phoneLabel')}</label>
                                     <div className="relative">
-                                        <Phone className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-gold-500 transition-colors" />
+                                        <Phone className={`absolute ${isAr ? 'right-4' : 'left-4'} top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-gold-500 transition-colors`} />
                                         <input
                                             type="tel"
                                             placeholder="05xxxxxxxx"
@@ -302,9 +307,9 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                                 </div>
 
                                 <div className="group">
-                                    <label className="text-sm font-bold text-navy-900 mb-1.5 block">البريد الإلكتروني</label>
+                                    <label className="text-sm font-bold text-navy-900 mb-1.5 block">{t('booking.step2.emailLabel')}</label>
                                     <div className="relative">
-                                        <Mail className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-gold-500 transition-colors" />
+                                        <Mail className={`absolute ${isAr ? 'right-4' : 'left-4'} top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-gold-500 transition-colors`} />
                                         <input
                                             type="email"
                                             placeholder="name@example.com"
@@ -319,31 +324,31 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                                 {/* New Fields: Service Type & Topic */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                     <div className="group">
-                                        <label className="text-sm font-bold text-navy-900 mb-1.5 block">نوع الاستشارة</label>
+                                        <label className="text-sm font-bold text-navy-900 mb-1.5 block">{t('booking.step2.serviceTypeLabel')}</label>
                                         <div className="relative">
                                             <select
                                                 className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-gold-500 focus:bg-white transition-all font-medium appearance-none cursor-pointer"
                                                 value={formData.serviceType}
                                                 onChange={e => setFormData({ ...formData, serviceType: e.target.value })}
                                             >
-                                                <option value="" disabled>اختر نوع الاستشارة...</option>
-                                                <option value="استشارة عامة">استشارة عامة</option>
-                                                <option value="قضايا تجارية">قضايا تجارية</option>
-                                                <option value="قضايا عمالية">قضايا عمالية</option>
-                                                <option value="قضايا جنائية">قضايا جنائية</option>
-                                                <option value="قضايا أحوال شخصية">قضايا أحوال شخصية</option>
-                                                <option value="صياغة عقود">صياغة عقود</option>
-                                                <option value="أخرى">أخرى</option>
+                                                <option value="" disabled>{t('booking.step2.serviceTypePlaceholder')}</option>
+                                                <option value="استشارة عامة">{t('booking.step2.serviceTypes.general')}</option>
+                                                <option value="قضايا تجارية">{t('booking.step2.serviceTypes.commercial')}</option>
+                                                <option value="قضايا عمالية">{t('booking.step2.serviceTypes.labor')}</option>
+                                                <option value="قضايا جنائية">{t('booking.step2.serviceTypes.criminal')}</option>
+                                                <option value="قضايا أحوال شخصية">{t('booking.step2.serviceTypes.personal')}</option>
+                                                <option value="صياغة عقود">{t('booking.step2.serviceTypes.contracts')}</option>
+                                                <option value="أخرى">{t('booking.step2.serviceTypes.other')}</option>
                                             </select>
-                                            <ChevronLeft className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
+                                            <ChevronLeft className={`absolute ${isAr ? 'left-4' : 'right-4'} top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none`} />
                                         </div>
                                     </div>
 
                                     <div className="group">
-                                        <label className="text-sm font-bold text-navy-900 mb-1.5 block">موضوع الاستشارة</label>
+                                        <label className="text-sm font-bold text-navy-900 mb-1.5 block">{t('booking.step2.topicLabel')}</label>
                                         <input
                                             type="text"
-                                            placeholder="مثال: تأسيس شركة، نزاع تجاري..."
+                                            placeholder={t('booking.step2.topicPlaceholder')}
                                             className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-gold-500 focus:bg-white transition-all font-medium"
                                             value={formData.consultationTopic}
                                             onChange={e => setFormData({ ...formData, consultationTopic: e.target.value })}
@@ -352,10 +357,10 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                                 </div>
 
                                 <div className="group">
-                                    <label className="text-sm font-bold text-navy-900 mb-1.5 block">ملاحظات إضافية (اختياري)</label>
+                                    <label className="text-sm font-bold text-navy-900 mb-1.5 block">{t('booking.step2.notesLabel')}</label>
                                     <textarea
                                         rows={3}
-                                        placeholder="نبذة مختصرة عن موضوع الاستشارة..."
+                                        placeholder={t('booking.step2.notesPlaceholder')}
                                         className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-gold-500 focus:bg-white transition-all font-medium resize-none"
                                         value={formData.notes}
                                         onChange={e => setFormData({ ...formData, notes: e.target.value })}
@@ -364,14 +369,18 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                             </div>
 
                             <div className="mt-8 flex justify-between items-center">
-                                <button onClick={handleBack} className="text-slate-400 font-bold hover:text-navy-900 transition-colors">عودة للخلف</button>
+                                <button onClick={handleBack} className="text-slate-400 font-bold hover:text-navy-900 transition-colors">{t('booking.step2.back')}</button>
                                 <button
                                     disabled={!formData.name || !formData.phone || !formData.serviceType}
                                     onClick={handleNext}
                                     className="group flex items-center gap-2 px-8 py-4 bg-navy-900 text-white rounded-xl font-bold hover:bg-navy-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-navy-900/10"
                                 >
-                                    مراجعة وتأكيد
-                                    <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                                    {t('booking.step2.next')}
+                                    {isAr ? (
+                                        <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                                    ) : (
+                                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                    )}
                                 </button>
                             </div>
                         </div>
@@ -382,8 +391,8 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                     {step === 3 && (
                         <div className="flex-1 flex flex-col animate-in zoom-in duration-300">
                             <div className="mb-8">
-                                <h2 className="text-2xl font-serif font-bold text-navy-900 mb-2">3. التأكيد النهائي</h2>
-                                <p className="text-slate-500 text-sm">يرجى مراجعة تفاصيل الحجز قبل الاعتماد.</p>
+                                <h2 className="text-2xl font-serif font-bold text-navy-900 mb-2">{t('booking.step3.title')}</h2>
+                                <p className="text-slate-500 text-sm">{t('booking.step3.subtitle')}</p>
                             </div>
 
                             <div className="flex-1 space-y-6">
@@ -393,7 +402,7 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                                             <Calendar className="w-6 h-6" />
                                         </div>
                                         <div>
-                                            <p className="text-xs text-slate-400 font-bold mb-1">الموعد المحدد</p>
+                                            <p className="text-xs text-slate-400 font-bold mb-1">{t('booking.step3.dateLabel')}</p>
                                             <p className="text-navy-900 font-black text-lg">{date}</p>
                                             <p className="text-gold-600 font-bold text-sm">{time}</p>
                                         </div>
@@ -401,14 +410,14 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <p className="text-xs text-slate-400 font-bold mb-1">نوع الاستشارة</p>
+                                            <p className="text-xs text-slate-400 font-bold mb-1">{t('booking.step3.typeLabel')}</p>
                                             <div className="flex items-center gap-2 text-navy-900 font-bold">
                                                 {type === 'In-Person' ? <MapPin className="w-4 h-4 text-gold-500" /> : <Video className="w-4 h-4 text-gold-500" />}
-                                                {type === 'In-Person' ? 'حضور شخصي' : 'أونلاين'}
+                                                {type === 'In-Person' ? t('booking.step1.inPerson') : t('booking.step1.online')}
                                             </div>
                                         </div>
                                         <div>
-                                            <p className="text-xs text-slate-400 font-bold mb-1">صاحب الطلب</p>
+                                            <p className="text-xs text-slate-400 font-bold mb-1">{t('booking.step3.clientLabel')}</p>
                                             <p className="text-navy-900 font-bold truncate">{formData.name}</p>
                                         </div>
                                     </div>
@@ -416,23 +425,23 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                                     {/* Confirmation Extra Details */}
                                     <div className="pt-4 border-t border-slate-200 grid grid-cols-2 gap-4">
                                         <div>
-                                            <p className="text-xs text-slate-400 font-bold mb-1">مجال الاستشارة</p>
+                                            <p className="text-xs text-slate-400 font-bold mb-1">{t('booking.step3.fieldLabel')}</p>
                                             <p className="text-navy-900 font-bold">{formData.serviceType || '-'}</p>
                                         </div>
                                         <div>
-                                            <p className="text-xs text-slate-400 font-bold mb-1">الموضوع</p>
+                                            <p className="text-xs text-slate-400 font-bold mb-1">{t('booking.step3.topicLabel')}</p>
                                             <p className="text-navy-900 font-bold truncate">{formData.consultationTopic || '-'}</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="bg-gold-50/50 p-4 rounded-xl border border-gold-100 text-sm text-gold-800 leading-relaxed">
-                                    بالضغط على تأكيد الحجز، فإنك توافق على سياسة الخصوصية وشروط الخدمة الخاصة بشركة عقاب السحيمي للمحاماة.
+                                    {t('booking.step3.agreement')}
                                 </div>
                             </div>
 
                             <div className="mt-8 flex justify-between items-center">
-                                <button onClick={handleBack} className="text-slate-400 font-bold hover:text-navy-900 transition-colors">تعديل البيانات</button>
+                                <button onClick={handleBack} className="text-slate-400 font-bold hover:text-navy-900 transition-colors">{t('booking.step3.back')}</button>
                                 <button
                                     onClick={handleSubmit}
                                     disabled={isSubmitting}
@@ -441,12 +450,12 @@ const BookingWizard: React.FC<BookingWizardProps> = ({ onSuccess }) => {
                                     {isSubmitting ? (
                                         <>
                                             <span className="w-5 h-5 border-2 border-navy-900 border-t-transparent rounded-full animate-spin" />
-                                            جاري المعالجة...
+                                            {t('booking.step3.processing')}
                                         </>
                                     ) : (
                                         <>
                                             <CheckCircle className="w-5 h-5" />
-                                            تأكيد الحجز
+                                            {t('booking.step3.confirm')}
                                         </>
                                     )}
                                 </button>

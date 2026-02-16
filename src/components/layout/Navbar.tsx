@@ -21,9 +21,9 @@ const Navbar: React.FC = () => {
     ? 'bg-transparent py-8'
     : 'bg-white/95 backdrop-blur-md shadow-xl py-3 border-b border-gold-500/10';
 
-  const textClass = isHome && !isScrolled ? 'text-white' : 'text-navy-900';
-  const navTextClass = isHome && !isScrolled ? 'text-slate-100' : 'text-navy-900';
-  const logoTextClass = isHome && !isScrolled ? 'text-gold-400' : 'text-gold-600';
+  const textClass = 'text-navy-900';
+  const navTextClass = 'text-navy-900';
+  const logoTextClass = 'text-gold-600';
 
   const ArrowIcon = isAr ? ArrowLeft : ArrowRight;
 
@@ -96,7 +96,7 @@ const Navbar: React.FC = () => {
           {/* Language Toggle */}
           <button
             onClick={toggleLang}
-            className={`flex items-center gap-2 text-xs font-black transition-all hover:opacity-80 px-3 py-2 rounded-lg border ${isHome && !isScrolled ? 'text-slate-200 border-white/20 hover:bg-white/10' : 'text-navy-900 border-navy-100 hover:bg-navy-50'}`}
+            className={`flex items-center gap-2 text-xs font-black transition-all hover:opacity-80 px-3 py-2 rounded-lg border text-navy-900 border-navy-100 hover:bg-navy-50`}
           >
             <Globe className="w-4 h-4 text-gold-500" />
             {t('navbar.langToggle')}
@@ -104,17 +104,14 @@ const Navbar: React.FC = () => {
 
           <Link
             to="/admin/login"
-            className={`flex items-center gap-2 text-xs font-black transition-all hover:opacity-80 ${isHome && !isScrolled ? 'text-slate-300' : 'text-navy-900'}`}
+            className={`flex items-center gap-2 text-xs font-black transition-all hover:opacity-80 text-navy-900`}
           >
             <ShieldCheck className="w-4 h-4 text-gold-500" />
             {t('navbar.adminPortal')}
           </Link>
           <Link
             to="/booking"
-            className={`px-8 py-3.5 rounded-xl font-black text-sm transition-all flex items-center gap-3 shadow-2xl ${isHome && !isScrolled
-              ? 'bg-gold-500 text-navy-950 hover:bg-white hover:shadow-white/20'
-              : 'bg-navy-900 text-gold-500 hover:shadow-gold-500/20'
-              }`}
+            className={`px-8 py-3.5 rounded-xl font-black text-sm transition-all flex items-center gap-3 shadow-2xl bg-navy-900 text-gold-500 hover:shadow-gold-500/20`}
           >
             {t('navbar.bookConsultation')}
             <ArrowIcon className="w-4 h-4" />
@@ -123,7 +120,7 @@ const Navbar: React.FC = () => {
 
         {/* Mobile Toggle */}
         <button
-          className={`lg:hidden p-3 rounded-2xl border-2 transition-all ${isHome && !isScrolled ? 'border-white/10 text-white' : 'border-navy-100 text-navy-900'}`}
+          className={`lg:hidden p-3 rounded-2xl border-2 transition-all border-navy-100 text-navy-900`}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           {mobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}

@@ -12,6 +12,7 @@ import RequireAuth from './components/auth/RequireAuth';
 import Layout from './components/layout/Layout';
 import { LanguageProvider } from './context/LanguageContext';
 import { BlogProvider } from './context/BlogContext';
+import { PackagesProvider } from './context/PackagesContext';
 
 
 import ScrollToTop from './components/layout/ScrollToTop';
@@ -21,28 +22,30 @@ const App: React.FC = () => {
     <>
       <LanguageProvider>
         <BlogProvider>
-          <BrowserRouter>
-            <ScrollToTop />
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<LandingPage />} />
-                <Route path="about" element={<AboutPage />} />
-                <Route path="practice-areas" element={<PracticeAreasPage />} />
-                <Route path="blog" element={<BlogPage />} />
-                <Route path="booking" element={<BookingPage />} />
-                <Route path="contact" element={<ContactPage />} />
-              </Route>
+          <PackagesProvider>
+            <BrowserRouter>
+              <ScrollToTop />
+              <Routes>
+                <Route path="/" element={<Layout />}>
+                  <Route index element={<LandingPage />} />
+                  <Route path="about" element={<AboutPage />} />
+                  <Route path="practice-areas" element={<PracticeAreasPage />} />
+                  <Route path="blog" element={<BlogPage />} />
+                  <Route path="booking" element={<BookingPage />} />
+                  <Route path="contact" element={<ContactPage />} />
+                </Route>
 
-              {/* Admin Routes separate from public layout */}
-              <Route path="/admin/login" element={<AdminLogin />} />
-              <Route path="/login" element={<AdminLogin />} />
+                {/* Admin Routes separate from public layout */}
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/login" element={<AdminLogin />} />
 
-              {/* Protected Admin Routes */}
-              <Route element={<RequireAuth />}>
-                <Route path="/admin/dashboard" element={<AdminDashboard />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
+                {/* Protected Admin Routes */}
+                <Route element={<RequireAuth />}>
+                  <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                </Route>
+              </Routes>
+            </BrowserRouter>
+          </PackagesProvider>
         </BlogProvider>
       </LanguageProvider>
     </>

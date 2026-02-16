@@ -19,6 +19,7 @@ import partner6 from '@/assets/Screenshot_2026-02-12_213942-removebg-preview.png
 import partner7 from '@/assets/Screenshot_2026-02-12_214009-removebg-preview.png';
 import partner8 from '@/assets/Screenshot_2026-02-12_214027-removebg-preview.png';
 import partner9 from '@/assets/4a3d78e8-e85d-491c-b8da-71f08d68f535_مشروع_جديد-removebg-preview.png';
+import logo from '@/assets/logo.png';
 
 const partners = [partner1, partner2, partner3, partner4, partner5, partner6, partner7, partner8, partner9];
 
@@ -95,33 +96,44 @@ const LandingPage: React.FC = () => {
       )}
 
       {/* Hero */}
-      <section className="relative h-screen min-h-[850px] flex items-center overflow-hidden bg-navy-950 text-white">
+      <section className="relative h-screen min-h-[850px] flex items-center overflow-hidden bg-slate-50 text-navy-900">
         <div className="absolute inset-0">
-          <img src="https://png.pngtree.com/thumb_back/fh260/background/20250324/pngtree-a-gold-balance-scale-symbolizes-justice-placed-on-dark-wooden-desk-image_17138389.jpg" className="w-full h-full object-cover opacity-30 grayscale brightness-50" alt="ميزان العدالة - مكتب المحاماة" />
-          <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/60 to-transparent" />
+          <img src="https://png.pngtree.com/thumb_back/fh260/background/20250324/pngtree-a-gold-balance-scale-symbolizes-justice-placed-on-dark-wooden-desk-image_17138389.jpg" className="w-full h-full object-cover opacity-10 grayscale" alt="ميزان العدالة - مكتب المحاماة" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-slate-50/60 to-transparent" />
         </div>
 
         <div className="container mx-auto px-6 relative z-10 pt-24 md:pt-0">
-          <div className="max-w-4xl space-y-8">
-            <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-gold-500/30 bg-gold-500/10 backdrop-blur-md text-gold-400 text-sm font-bold animate-pulse hover:bg-gold-500/20 transition-colors">
-              <span className="w-2 h-2 rounded-full bg-gold-500 shadow-[0_0_10px_rgba(212,175,55,0.5)]" />
-              {t('hero.badge')}
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+            <div className="max-w-3xl space-y-8">
+              <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-gold-600/30 bg-gold-600/10 backdrop-blur-md text-gold-700 text-sm font-bold animate-pulse hover:bg-gold-600/20 transition-colors">
+                <span className="w-2 h-2 rounded-full bg-gold-600 shadow-[0_0_10px_rgba(212,175,55,0.5)]" />
+                {t('hero.badge')}
+              </div>
+              <h1 className="text-6xl md:text-[80px] font-serif font-bold leading-[1.1] text-navy-900">
+                {t('hero.title1')} <span className="text-gold-600">{t('hero.titleHighlight')}</span> <br />
+                {t('hero.title2')}
+              </h1>
+              <p className="text-xl text-slate-600 max-w-xl font-light leading-relaxed">
+                {t('hero.subtitle')}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-6 pt-4">
+                <Link to="/booking" className="px-12 py-6 bg-gold-500 text-navy-900 rounded-2xl font-black text-xl hover:bg-gold-400 transition-all flex items-center justify-center gap-3 group shadow-2xl shadow-gold-500/20">
+                  {t('hero.cta1')}
+                  <ArrowIcon className="w-6 h-6 group-hover:-translate-x-2 transition-transform" />
+                </Link>
+                <Link to="/about" className="px-12 py-6 border-2 border-navy-900/10 hover:bg-navy-900/5 rounded-2xl font-black text-xl text-center transition-all backdrop-blur-sm text-navy-900">
+                  {t('hero.cta2')}
+                </Link>
+              </div>
             </div>
-            <h1 className="text-7xl md:text-[92px] font-serif font-bold leading-[1.1] text-white">
-              {t('hero.title1')} <span className="text-gold-500">{t('hero.titleHighlight')}</span> <br />
-              {t('hero.title2')}
-            </h1>
-            <p className="text-2xl text-slate-300 max-w-2xl font-light leading-relaxed">
-              {t('hero.subtitle')}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6 pt-4">
-              <Link to="/booking" className="px-12 py-6 bg-gold-500 text-navy-900 rounded-2xl font-black text-xl hover:bg-gold-400 transition-all flex items-center justify-center gap-3 group shadow-2xl shadow-gold-500/20">
-                {t('hero.cta1')}
-                <ArrowIcon className="w-6 h-6 group-hover:-translate-x-2 transition-transform" />
-              </Link>
-              <Link to="/about" className="px-12 py-6 border-2 border-white/20 hover:bg-white/5 rounded-2xl font-black text-xl text-center transition-all backdrop-blur-sm">
-                {t('hero.cta2')}
-              </Link>
+
+            {/* Hero Image */}
+            <div className={`hidden lg:block relative w-[500px] h-[500px] animate-in fade-in slide-in-from-left duration-1000 ${isAr ? 'mr-auto' : 'ml-auto'}`}>
+              <img
+                src={logo}
+                alt="Law Firm Logo"
+                className="w-full h-full object-contain relative z-10 drop-shadow-2xl hover:scale-105 transition-transform duration-500"
+              />
             </div>
           </div>
         </div>

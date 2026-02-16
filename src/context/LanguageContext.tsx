@@ -127,6 +127,12 @@ const translations: Record<string, any> = {
             messageLabel: 'الرسالة',
             messagePlaceholder: 'اكتب استفسارك هنا...',
             send: 'إرسال الرسالة',
+            modal: {
+                title: 'عذراً، لم يتم الإرسال',
+                desc: 'نواجه حالياً مشكلة تقنية في إرسال الرسائل عبر الموقع. يرجى التواصل معنا مباشرة عبر واتساب لخدمتك بشكل أسرع.',
+                whatsapp: 'تواصل عبر واتساب',
+                close: 'إغلاق',
+            },
         },
         footer: {
             companyDesc: 'نحن نقدم حلولاً قانونية استثنائية لأكثر القضايا تعقيداً في المملكة العربية السعودية.',
@@ -157,6 +163,12 @@ const translations: Record<string, any> = {
             period: 'شهرياً',
             currency: 'ريال',
             subscribe: 'اشترك الآن',
+            modal: {
+                title: 'تأكيد الاشتراك',
+                desc: 'سيتم تحويلك الآن إلى تطبيق واتساب لاستكمال إجراءات الاشتراك في الباقة المختارة. هل أنت متأكد؟',
+                confirm: 'تأكيد ومتابعة',
+                cancel: 'إلغاء'
+            },
             contactForCustom: 'تواصل لباقة مخصصة',
             tiers: [
                 {
@@ -253,6 +265,71 @@ const translations: Record<string, any> = {
                 desc: 'يسعدنا جداً تواصلكم معنا لتحديد الباقة الأنسب لاحتياجاتكم.',
                 cta: 'تواصل معنا: 0553300581',
                 subCta: 'أو عبر الواتساب مباشرة'
+            }
+        },
+        booking: {
+            pageTitle: 'حجز موعد استشارة',
+            title: 'ابدأ رحلتك القانونية',
+            subtitle: 'الخطوة الأولى نحو حماية حقوقك تبدأ من هنا.',
+            desc: 'احجز استشارتك القانونية\nنسعد بتقديم الدعم القانوني اللازم لك ولأعمالك عبر فريقنا المتخصص.',
+            steps: {
+                1: 'الموعد والنوع',
+                2: 'البيانات الشخصية',
+                3: 'التأكيد النهائي',
+            },
+            stepStatus: {
+                1: 'جاري الاختيار...',
+                2: 'جاري الإدخال...',
+                3: 'المرحلة الأخيرة',
+            },
+            step1: {
+                title: '١. اختيار الموعد المناسب',
+                subtitle: 'يرجى تحديد التاريخ والوقت المفضل لاستشارتك.',
+                dateLabel: 'تاريخ الاستشارة',
+                timeLabel: 'الوقت المتاح',
+                moreSlots: 'عرض بقية المواعيد المتاحة...',
+                typeLabel: 'نوع الحضور',
+                inPerson: 'حضور شخصي',
+                online: 'عن بعد (أونلاين)',
+                next: 'المتابعة للبيانات'
+            },
+            step2: {
+                title: '٢. البيانات الشخصية',
+                subtitle: 'يرجى إدخال معلومات التواصل الخاصة بك.',
+                nameLabel: 'الاسم الكامل',
+                namePlaceholder: 'الاسم الثلاثي',
+                phoneLabel: 'رقم الجوال',
+                emailLabel: 'البريد الإلكتروني',
+                serviceTypeLabel: 'نوع الاستشارة',
+                serviceTypePlaceholder: 'اختر نوع الاستشارة...',
+                topicLabel: 'موضوع الاستشارة',
+                topicPlaceholder: 'مثال: تأسيس شركة، نزاع تجاري...',
+                notesLabel: 'ملاحظات إضافية (اختياري)',
+                notesPlaceholder: 'نبذة مختصرة عن موضوع الاستشارة...',
+                back: 'عودة للخلف',
+                next: 'مراجعة وتأكيد',
+                serviceTypes: {
+                    general: 'استشارة عامة',
+                    commercial: 'قضايا تجارية',
+                    labor: 'قضايا عمالية',
+                    criminal: 'قضايا جنائية',
+                    personal: 'قضايا أحوال شخصية',
+                    contracts: 'صياغة عقود',
+                    other: 'أخرى'
+                }
+            },
+            step3: {
+                title: '3. التأكيد النهائي',
+                subtitle: 'يرجى مراجعة تفاصيل الحجز قبل الاعتماد.',
+                dateLabel: 'الموعد المحدد',
+                typeLabel: 'نوع الاستشارة',
+                clientLabel: 'صاحب الطلب',
+                fieldLabel: 'مجال الاستشارة',
+                topicLabel: 'الموضوع',
+                agreement: 'بالضغط على تأكيد الحجز، فإنك توافق على سياسة الخصوصية وشروط الخدمة الخاصة بشركة عقاب السحيمي للمحاماة.',
+                back: 'تعديل البيانات',
+                confirm: 'تأكيد الحجز',
+                processing: 'جاري المعالجة...'
             }
         },
     },
@@ -381,6 +458,12 @@ const translations: Record<string, any> = {
             messageLabel: 'Message',
             messagePlaceholder: 'Write your inquiry here...',
             send: 'Send Message',
+            modal: {
+                title: 'Sorry, Message Not Sent',
+                desc: 'We are currently facing a technical issue sending messages through the website. Please contact us directly via WhatsApp for faster service.',
+                whatsapp: 'Contact via WhatsApp',
+                close: 'Close',
+            },
         },
         footer: {
             companyDesc: 'We provide exceptional legal solutions for the most complex cases in the Kingdom of Saudi Arabia.',
@@ -411,6 +494,12 @@ const translations: Record<string, any> = {
             period: 'Monthly',
             currency: 'SAR',
             subscribe: 'Subscribe Now',
+            modal: {
+                title: 'Confirm Subscription',
+                desc: 'You will be redirected to WhatsApp to complete your subscription for the selected package. Are you sure?',
+                confirm: 'Confirm & Continue',
+                cancel: 'Cancel'
+            },
             contactForCustom: 'Contact for Custom Package',
             tiers: [
                 {
@@ -508,6 +597,71 @@ const translations: Record<string, any> = {
                 desc: 'We are happy to assist you in choosing the best package for your needs.',
                 cta: 'Call Us: 0553300581',
                 subCta: 'Or via WhatsApp'
+            }
+        },
+        booking: {
+            pageTitle: 'Book Consultation',
+            title: 'Start Your Legal Journey',
+            subtitle: 'The first step towards protecting your rights starts here.',
+            desc: 'Book Your Legal Consultation\nWe are happy to provide the necessary legal support for you and your business through our specialized team.',
+            steps: {
+                1: 'Date & Type',
+                2: 'Personal Info',
+                3: 'Final Confirmation',
+            },
+            stepStatus: {
+                1: 'Selecting...',
+                2: 'Entering Info...',
+                3: 'Final Step',
+            },
+            step1: {
+                title: '1. Select Appointment',
+                subtitle: 'Please select your preferred date and time for consultation.',
+                dateLabel: 'Consultation Date',
+                timeLabel: 'Available Time',
+                moreSlots: 'Show more slots...',
+                typeLabel: 'Attendance Type',
+                inPerson: 'In-Person',
+                online: 'Remote (Online)',
+                next: 'Continue to Info'
+            },
+            step2: {
+                title: '2. Personal Information',
+                subtitle: 'Please enter your contact information.',
+                nameLabel: 'Full Name',
+                namePlaceholder: 'Full Name',
+                phoneLabel: 'Mobile Number',
+                emailLabel: 'Email Address',
+                serviceTypeLabel: 'Consultation Type',
+                serviceTypePlaceholder: 'Select type...',
+                topicLabel: 'Consultation Topic',
+                topicPlaceholder: 'Ex: Company formation, Commercial dispute...',
+                notesLabel: 'Additional Notes (Optional)',
+                notesPlaceholder: 'Brief description of the consultation topic...',
+                back: 'Back',
+                next: 'Review & Confirm',
+                serviceTypes: {
+                    general: 'General Consultation',
+                    commercial: 'Commercial Cases',
+                    labor: 'Labor Cases',
+                    criminal: 'Criminal Cases',
+                    personal: 'Personal Status',
+                    contracts: 'Contract Drafting',
+                    other: 'Other'
+                }
+            },
+            step3: {
+                title: '3. Final Confirmation',
+                subtitle: 'Please review booking details before confirming.',
+                dateLabel: 'Selected Date',
+                typeLabel: 'Consultation Type',
+                clientLabel: 'Client Name',
+                fieldLabel: 'Field',
+                topicLabel: 'Topic',
+                agreement: 'By clicking Confirm Booking, you agree to Oqab Al-Suhaimi Law Firm\'s Privacy Policy and Terms of Service.',
+                back: 'Edit Info',
+                confirm: 'Confirm Booking',
+                processing: 'Processing...'
             }
         },
     },

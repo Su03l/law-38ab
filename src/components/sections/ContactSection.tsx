@@ -1,9 +1,15 @@
 import React from 'react';
-import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send, AlertCircle, X, MessageSquare } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 
 const ContactSection: React.FC = () => {
-    const { t } = useLanguage();
+    const { t, isAr } = useLanguage();
+    const [showModal, setShowModal] = React.useState(false);
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        setShowModal(true);
+    };
 
     return (
         <section id="contact" className="py-24 relative bg-slate-50">
@@ -63,7 +69,7 @@ const ContactSection: React.FC = () => {
                     {/* Contact Form */}
                     <div className="bg-white p-8 rounded-[32px] shadow-lg border border-slate-100">
                         <h3 className="text-2xl font-serif font-bold text-navy-900 mb-6">{t('contact.sendMessage')}</h3>
-                        <form className="space-y-5">
+                        <form className="space-y-5" onSubmit={handleSubmit}>
                             <div className="space-y-2">
                                 <label className="text-sm font-bold text-slate-500">{t('contact.fullName')}</label>
                                 <input type="text" className="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-gold-500 focus:bg-white transition-all" placeholder={t('contact.namePlaceholder')} />
@@ -99,6 +105,46 @@ const ContactSection: React.FC = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Error/Contact Modal */}
+            {showModal && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                    <div className="absolute inset-0 bg-navy-950/80 backdrop-blur-sm" onClick={() => setShowModal(false)} />
+                    <div className="relative bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl animate-in fade-in zoom-in duration-300">
+                        <button
+                            onClick={() => setShowModal(false)}
+                            className={`absolute top-4 ${isAr ? 'left-4' : 'right-4'} p-2 text-slate-400 hover:text-navy-900 hover:bg-slate-100 rounded-full transition-all`}
+                        >
+                            <X className="w-5 h-5" />
+                        </button>
+
+                        <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <AlertCircle className="w-8 h-8 text-red-600" />
+                        </div>
+                        <h3 className="text-2xl font-serif font-bold text-navy-900 mb-4">{t('contact.modal.title')}</h3>
+                        <p className="text-slate-600 mb-8 leading-relaxed">
+                            {t('contact.modal.desc')}
+                        </p>
+                        <div className="flex flex-col gap-3">
+                            <a
+                                href="https://wa.me/966553300581"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-full py-3.5 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition-all flex items-center justify-center gap-2 shadow-lg shadow-green-600/20"
+                            >
+                                <MessageSquare className="w-5 h-5" />
+                                {t('contact.modal.whatsapp')}
+                            </a>
+                            <button
+                                onClick={() => setShowModal(false)}
+                                className="w-full py-3.5 bg-slate-100 text-slate-600 rounded-xl font-bold hover:bg-slate-200 transition-all"
+                            >
+                                {t('contact.modal.close')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </section>
     );
 };

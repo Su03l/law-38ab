@@ -38,3 +38,10 @@ export interface BlogPost {
   excerpt: string;
   imageUrl: string;
 }
+
+export interface PackageTier {
+  id: string;
+  title: string;
+  price: string;
+  features: string[];
+}
