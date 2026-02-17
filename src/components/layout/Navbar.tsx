@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowLeft, ArrowRight, ShieldCheck, Globe } from 'lucide-react';
+import { Menu, X, ArrowLeft, ArrowRight, Globe } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import logo from '@/assets/logo.png';
 import { useLanguage } from '../../context/LanguageContext';
@@ -102,13 +102,7 @@ const Navbar: React.FC = () => {
             {t('navbar.langToggle')}
           </button>
 
-          <Link
-            to="/admin/login"
-            className={`flex items-center gap-2 text-xs font-black transition-all hover:opacity-80 text-navy-900`}
-          >
-            <ShieldCheck className="w-4 h-4 text-gold-500" />
-            {t('navbar.adminPortal')}
-          </Link>
+
           <Link
             to="/booking"
             className={`px-8 py-3.5 rounded-xl font-black text-sm transition-all flex items-center gap-3 shadow-2xl bg-navy-900 text-gold-500 hover:shadow-gold-500/20`}
@@ -151,14 +145,7 @@ const Navbar: React.FC = () => {
               {t('navbar.langToggle')}
             </button>
 
-            <Link
-              to="/admin/login"
-              className="text-2xl font-bold text-gold-400 flex items-center gap-4"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <ShieldCheck className="w-8 h-8" />
-              {t('navbar.adminPortal')}
-            </Link>
+
             <Link
               to="/booking"
               className="mt-6 px-10 py-6 bg-gold-500 text-navy-900 rounded-2xl font-black text-2xl text-center shadow-2xl"
